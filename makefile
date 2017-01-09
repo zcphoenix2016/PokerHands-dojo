@@ -2,13 +2,14 @@ UTLIB = googletest/build/googlemock/libgmock_main.a\
         googletest/build/googlemock/libgmock.a\
         googletest/build/googlemock/gtest/libgtest.a
 
-UTINC = -isystem googletest/googlemock/include\
-       -isystem googletest/googletest/include\
+UTINC = -I./googletest/googlemock/include\
+       -I./googletest/googletest/include\
+       -I./Include
 
 UTFLAG = -g -pthread -DUNIT_TEST -Wno-write-strings
 
 all:
-	g++ -std=c++14 -pthread Source/*.cpp -o PokerHands.exe -g
+	g++ -std=c++14 -pthread -I./Include Source/*.cpp -o PokerHands.exe -g
 
 ut:
 	g++ -std=c++14 ${UTFLAG} ${UTINC} ${UTLIB} Source/*.cpp Test_modules/*.cpp -o ut_PokerHands.exe

@@ -1,5 +1,5 @@
-#include "gtest/gtest.h"
-#include "../Include/PokerHands.hpp"
+#include <gtest/gtest.h>
+#include "PokerHands.hpp"
 
 TEST(PokerHandsTestSuite, TheVeryFirstTestCase)
 {

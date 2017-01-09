@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../Include/PokerHands.hpp"
+#include "PokerHands.hpp"
 
 #ifndef UNIT_TEST
 int main(int argc, char** argv)
