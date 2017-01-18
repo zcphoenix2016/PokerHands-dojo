@@ -3,8 +3,8 @@ UTLIB = googletest/build/googlemock/libgmock_main.a\
         googletest/build/googlemock/gtest/libgtest.a
 
 UTINC = -I./googletest/googlemock/include\
-       -I./googletest/googletest/include\
-       -I./Include
+        -I./googletest/googletest/include\
+        -I./Include
 
 UTFLAG = -g -pthread -DUNIT_TEST -Wno-write-strings
 
