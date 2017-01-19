@@ -36,7 +36,20 @@ int PokerHands::compare(vector<Card> p_cards1, vector<Card> p_cards2)
     {
         if(l_c1 == CARDS_RANK_ONE_PAIR)
         {
-            return getThePairValueFromOnePair(p_cards1) > getThePairValueFromOnePair(p_cards2) ? 1 : -1;
+            auto l_val1 = getThePairValueFromOnePair(p_cards1);
+            auto l_val2 = getThePairValueFromOnePair(p_cards2);            
+            if (l_val1 == l_val2) 
+            {
+                p_cards1.erase(remove_if(p_cards1.begin(), p_cards1.end(), 
+                          [=](auto p){return p.m_value == l_val1;}), p_cards1.end());
+                p_cards2.erase(remove_if(p_cards2.begin(), p_cards2.end(), 
+                          [=](auto p){return p.m_value == l_val1;}), p_cards2.end());
+                return findHighestVal(p_cards1) > findHighestVal(p_cards2) ? 1 : -1;          
+            }
+            else 
+            {
+                return l_val1 > l_val2 ? 1 : -1;  
+            }            
         }
         return findHighestVal(p_cards1) > findHighestVal(p_cards2) ? 1 : -1;
     }
