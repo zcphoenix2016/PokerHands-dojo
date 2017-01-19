@@ -5,6 +5,13 @@
 
 using namespace std;
 
+enum CardsRank
+{
+    CARDS_RANK_HIGH_CARD = 0,
+    CARDS_RANK_ONE_PAIR,
+    CARDS_RANK_TWO_PAIRS
+};
+
 class Card
 {
 public:
@@ -21,4 +28,5 @@ public:
 private:
      static bool isOnePair(vector<Card> p_cards);
      static bool isTwoPairs(vector<Card> p_cards);
+     static CardsRank calcRank(vector<Card> p_cards);
 };

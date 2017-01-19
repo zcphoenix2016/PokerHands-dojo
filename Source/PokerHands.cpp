@@ -27,23 +27,26 @@ Card::Card(const string& p_cardVal)
 
 int PokerHands::compare(vector<Card> p_cards1, vector<Card> p_cards2)
 {
-    if (isTwoPairs(p_cards1) and (not isTwoPairs(p_cards2)))
+    CardsRank l_c1 = calcRank(p_cards1);
+    CardsRank l_c2 = calcRank(p_cards2);
+    
+    return l_c1 > l_c2 ? 1 : -1;
+}
+
+CardsRank PokerHands::calcRank(vector<Card> p_cards)
+{
+    CardsRank l_cr = CARDS_RANK_HIGH_CARD;
+    
+    if (isTwoPairs(p_cards))
     {
-        return 1;
+        l_cr = CARDS_RANK_TWO_PAIRS;
     }
-    else if(not isTwoPairs(p_cards1) and (isTwoPairs(p_cards2)))
+    else if (isOnePair(p_cards))
     {
-        return -1;
+        l_cr = CARDS_RANK_ONE_PAIR;
     }
     
-    if(isOnePair(p_cards1) and (not isOnePair(p_cards2)))
-    {
-        return 1;
-    }
-    else if((not isOnePair(p_cards1)) and isOnePair(p_cards2))
-    {
-        return -1;
-    }
+    return l_cr;
 }
 
 bool PokerHands::isOnePair(vector<Card> p_cards)
