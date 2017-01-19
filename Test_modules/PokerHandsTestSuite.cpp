@@ -17,4 +17,5 @@ TEST(PokerHandsTestSuite, highCardLessThanOnepare)
     cards2.emplace_back("TH");
     
     ASSERT_EQ(-1, compare(cards1, cards2));
+    ASSERT_EQ(1, compare(cards2, cards1));
 }
