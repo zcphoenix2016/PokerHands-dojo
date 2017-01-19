@@ -30,4 +30,5 @@ private:
      static bool isTwoPairs(vector<Card> p_cards);
      static CardsRank calcRank(vector<Card> p_cards);
      static int findHighestVal(vector<Card> p_cards);
+     static int getThePairValueFromOnePair(vector<Card> p_cards);
 };
