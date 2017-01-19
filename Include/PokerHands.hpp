@@ -14,6 +14,10 @@ public:
     char m_suit;   
 };
 
-
-int compare(vector<Card> p_cards1, vector<Card> p_card2);
-bool isOnePair(vector<Card> p_cards);
+class PokerHands
+{
+public:
+     static int compare(vector<Card> p_cards1, vector<Card> p_card2);
+private:
+     static bool isOnePair(vector<Card> p_cards);
+};

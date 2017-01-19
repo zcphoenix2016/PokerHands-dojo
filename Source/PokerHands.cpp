@@ -24,7 +24,8 @@ Card::Card(const string& p_cardVal)
     m_suit = p_cardVal[1];
 }
 
-int compare(vector<Card> p_cards1, vector<Card> p_cards2)
+
+int PokerHands::compare(vector<Card> p_cards1, vector<Card> p_cards2)
 {
     if(isOnePair(p_cards1) and (not isOnePair(p_cards2)))
     {
@@ -36,13 +37,7 @@ int compare(vector<Card> p_cards1, vector<Card> p_cards2)
     }
 }
 
-#if 1
-bool isHighCard(vector<Card> cards)
-{
-    
-}
-
-bool isOnePair(vector<Card> p_cards)
+bool PokerHands::isOnePair(vector<Card> p_cards)
 {
     for(auto l_iter = p_cards.begin(); l_iter != p_cards.end(); l_iter++)
     {
@@ -52,5 +47,5 @@ bool isOnePair(vector<Card> p_cards)
     }
     return false;
 }
-#endif
+
 

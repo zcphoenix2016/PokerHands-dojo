@@ -16,6 +16,6 @@ TEST(PokerHandsTestSuite, highCardLessThanOnepare)
     cards2.emplace_back("8D");
     cards2.emplace_back("TH");
     
-    ASSERT_EQ(-1, compare(cards1, cards2));
-    ASSERT_EQ(1, compare(cards2, cards1));
+    ASSERT_EQ(-1, PokerHands::compare(cards1, cards2));
+    ASSERT_EQ(1, PokerHands::compare(cards2, cards1));
 }
