@@ -20,4 +20,5 @@ public:
      static int compare(vector<Card> p_cards1, vector<Card> p_card2);
 private:
      static bool isOnePair(vector<Card> p_cards);
+     static bool isTwoPairs(vector<Card> p_cards);
 };
