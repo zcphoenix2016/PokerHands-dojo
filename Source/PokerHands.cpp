@@ -30,6 +30,11 @@ int PokerHands::compare(vector<Card> p_cards1, vector<Card> p_cards2)
     CardsRank l_c1 = calcRank(p_cards1);
     CardsRank l_c2 = calcRank(p_cards2);
     
+    if(l_c1 == l_c2)
+    {
+        return findHighestVal(p_cards1) > findHighestVal(p_cards2) ? 1 : -1;
+    }
+    
     return l_c1 > l_c2 ? 1 : -1;
 }
 
@@ -86,4 +91,13 @@ bool PokerHands::isTwoPairs(vector<Card> p_cards)
         return false;
     }
 }
+
+int PokerHands::findHighestVal(vector<Card> p_cards)
+{
+    auto l_maxCard = max_element(p_cards.begin(),p_cards.end(),
+                       [](auto const p1, auto const p2){return p1.m_value < p2.m_value;});
+    
+    return l_maxCard->m_value; 
+}
+
 
