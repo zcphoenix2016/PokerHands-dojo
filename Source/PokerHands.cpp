@@ -3,12 +3,12 @@
 
 int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
 {
-    HandRank l_c1 = calcRank(p_hand1);
-    HandRank l_c2 = calcRank(p_hand2);
+    HandRank l_rank1 = calcRank(p_hand1);
+    HandRank l_rank2 = calcRank(p_hand2);
 
-    if(l_c1 == l_c2)
+    if(l_rank1 == l_rank2)
     {
-        if(l_c1 == HAND_RANK_ONE_PAIR)
+        if(l_rank1 == HAND_RANK_ONE_PAIR)
         {
             auto l_val1 = getThePairValueFromOnePair(p_hand1);
             auto l_val2 = getThePairValueFromOnePair(p_hand2);
@@ -28,23 +28,23 @@ int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
         return findHighestVal(p_hand1) > findHighestVal(p_hand2) ? 1 : -1;
     }
 
-    return l_c1 > l_c2 ? 1 : -1;
+    return l_rank1 > l_rank2 ? 1 : -1;
 }
 
 HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 {
-    HandRank l_cr = HAND_RANK_HIGH_CARD;
+    HandRank l_rank = HAND_RANK_HIGH_CARD;
 
-    if (isTwoPairs(p_hand))
+    if(isTwoPairs(p_hand))
     {
-        l_cr = HAND_RANK_TWO_PAIRS;
+        l_rank = HAND_RANK_TWO_PAIRS;
     }
-    else if (isOnePair(p_hand))
+    else if(isOnePair(p_hand))
     {
-        l_cr = HAND_RANK_ONE_PAIR;
+        l_rank = HAND_RANK_ONE_PAIR;
     }
 
-    return l_cr;
+    return l_rank;
 }
 
 bool PokerHands::isOnePair(std::vector<Card> p_hand)
@@ -58,24 +58,23 @@ bool PokerHands::isOnePair(std::vector<Card> p_hand)
     return false;
 }
 
-
 bool PokerHands::isTwoPairs(std::vector<Card> p_hand)
 {
     sort(p_hand.begin(), p_hand.end(),
-         [](auto p_card1, auto p_card2){return p_card1.value() < p_card2.value();});
+        [](auto p_card1, auto p_card2){return p_card1.value() < p_card2.value();});
 
-    int count = 0;
-    for(auto l_iter = p_hand.begin(); l_iter != p_hand.end(); l_iter++)
+    int l_count = 0;
+    for(auto l_iter = p_hand.begin(); l_iter != p_hand.end(); l_iter ++)
     {
         if(2 == count_if(p_hand.begin(),p_hand.end(),
                         [&](Card p_card){return p_card.value() == l_iter->value();}))
         {
-            count++;
-            l_iter++;
+            l_count ++;
+            l_iter ++;
         }
     }
 
-    if (2 == count)
+    if (2 == l_count)
     {
         return true;
     }
