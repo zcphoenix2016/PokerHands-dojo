@@ -3,12 +3,12 @@
 
 int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
 {
-    CardsRank l_c1 = calcRank(p_hand1);
-    CardsRank l_c2 = calcRank(p_hand2);
+    HandRank l_c1 = calcRank(p_hand1);
+    HandRank l_c2 = calcRank(p_hand2);
 
     if(l_c1 == l_c2)
     {
-        if(l_c1 == CARDS_RANK_ONE_PAIR)
+        if(l_c1 == HAND_RANK_ONE_PAIR)
         {
             auto l_val1 = getThePairValueFromOnePair(p_hand1);
             auto l_val2 = getThePairValueFromOnePair(p_hand2);
@@ -31,17 +31,17 @@ int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
     return l_c1 > l_c2 ? 1 : -1;
 }
 
-CardsRank PokerHands::calcRank(std::vector<Card> p_hand)
+HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 {
-    CardsRank l_cr = CARDS_RANK_HIGH_CARD;
+    HandRank l_cr = HAND_RANK_HIGH_CARD;
 
     if (isTwoPairs(p_hand))
     {
-        l_cr = CARDS_RANK_TWO_PAIRS;
+        l_cr = HAND_RANK_TWO_PAIRS;
     }
     else if (isOnePair(p_hand))
     {
-        l_cr = CARDS_RANK_ONE_PAIR;
+        l_cr = HAND_RANK_ONE_PAIR;
     }
 
     return l_cr;

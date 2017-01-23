@@ -3,11 +3,11 @@
 #include <vector>
 #include "Card.hpp"
 
-enum CardsRank
+enum HandRank
 {
-    CARDS_RANK_HIGH_CARD = 0,
-    CARDS_RANK_ONE_PAIR,
-    CARDS_RANK_TWO_PAIRS
+    HAND_RANK_HIGH_CARD = 0,
+    HAND_RANK_ONE_PAIR,
+    HAND_RANK_TWO_PAIRS
 };
 
 const int INVALID_VALUE = -1;
@@ -19,7 +19,7 @@ public:
 private:
     bool isOnePair(std::vector<Card>);
     bool isTwoPairs(std::vector<Card>);
-    CardsRank calcRank(std::vector<Card>);
+    HandRank calcRank(std::vector<Card>);
     int findHighestVal(std::vector<Card>);
     int getThePairValueFromOnePair(std::vector<Card>);
 };
