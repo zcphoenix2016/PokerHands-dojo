@@ -14,9 +14,9 @@ int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
             auto l_val2 = getThePairValueFromOnePair(p_hand2);
             if (l_val1 == l_val2)
             {
-                p_hand1.erase(remove_if(p_hand1.begin(), p_hand1.end(),
+                p_hand1.erase(std::remove_if(p_hand1.begin(), p_hand1.end(),
                           [=](auto p){return p.value() == l_val1;}), p_hand1.end());
-                p_hand2.erase(remove_if(p_hand2.begin(), p_hand2.end(),
+                p_hand2.erase(std::remove_if(p_hand2.begin(), p_hand2.end(),
                           [=](auto p){return p.value() == l_val1;}), p_hand2.end());
                 return findHighestVal(p_hand1) > findHighestVal(p_hand2) ? 1 : -1;
             }
@@ -51,7 +51,7 @@ bool PokerHands::isOnePair(std::vector<Card> p_hand)
 {
     for(auto l_iter = p_hand.begin(); l_iter != p_hand.end(); l_iter++)
     {
-       if(2 == count_if(p_hand.begin(),p_hand.end(),
+       if(2 == std::count_if(p_hand.begin(),p_hand.end(),
                         [&](Card p_card){return p_card.value() == l_iter->value();}))
            return true;
     }
@@ -60,13 +60,13 @@ bool PokerHands::isOnePair(std::vector<Card> p_hand)
 
 bool PokerHands::isTwoPairs(std::vector<Card> p_hand)
 {
-    sort(p_hand.begin(), p_hand.end(),
+    std::sort(p_hand.begin(), p_hand.end(),
         [](auto p_card1, auto p_card2){return p_card1.value() < p_card2.value();});
 
     int l_count = 0;
     for(auto l_iter = p_hand.begin(); l_iter != p_hand.end(); l_iter ++)
     {
-        if(2 == count_if(p_hand.begin(),p_hand.end(),
+        if(2 == std::count_if(p_hand.begin(),p_hand.end(),
                         [&](Card p_card){return p_card.value() == l_iter->value();}))
         {
             l_count ++;
@@ -86,7 +86,7 @@ bool PokerHands::isTwoPairs(std::vector<Card> p_hand)
 
 int PokerHands::findHighestVal(std::vector<Card> p_hand)
 {
-    auto l_maxCard = max_element(p_hand.begin(),p_hand.end(),
+    auto l_maxCard = std::max_element(p_hand.begin(),p_hand.end(),
                        [](auto p_card1, auto p_card2){return p_card1.value() < p_card2.value();});
 
     return l_maxCard->value();
@@ -96,7 +96,7 @@ int PokerHands::getThePairValueFromOnePair(std::vector<Card> p_hand)
 {
     for(auto l_iter = p_hand.begin(); l_iter != p_hand.end(); l_iter++)
     {
-       if(2 == count_if(p_hand.begin(),p_hand.end(),
+       if(2 == std::count_if(p_hand.begin(),p_hand.end(),
                         [&](Card p_card){return p_card.value() == l_iter->value();}))
            return l_iter->value();
     }
