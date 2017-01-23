@@ -15,7 +15,7 @@ enum CardsRank
 class Card
 {
 public:
-    explicit Card(const string& p_cardVal);
+    Card(const string&);
     
     int m_value;
     char m_suit;   
@@ -24,11 +24,11 @@ public:
 class PokerHands
 {
 public:
-     static int compare(vector<Card> p_cards1, vector<Card> p_card2);
+     int compare(vector<Card>, vector<Card>);
 private:
-     static bool isOnePair(vector<Card> p_cards);
-     static bool isTwoPairs(vector<Card> p_cards);
-     static CardsRank calcRank(vector<Card> p_cards);
-     static int findHighestVal(vector<Card> p_cards);
-     static int getThePairValueFromOnePair(vector<Card> p_cards);
+     bool isOnePair(vector<Card>);
+     bool isTwoPairs(vector<Card>);
+     CardsRank calcRank(vector<Card>);
+     int findHighestVal(vector<Card>);
+     int getThePairValueFromOnePair(vector<Card>);
 };

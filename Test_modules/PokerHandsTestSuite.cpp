@@ -1,96 +1,55 @@
 #include "gtest/gtest.h"
 #include "PokerHands.hpp"
 
-TEST(PokerHandsTestSuite, onePairShouldWinHighCard)
+class PokerHandsTestSuite : public ::testing::Test
 {
-    vector<Card> cards1, cards2;
-    cards1.emplace_back("5H");
-    cards1.emplace_back("6C");
-    cards1.emplace_back("7S");
-    cards1.emplace_back("8D");
-    cards1.emplace_back("TH");
+public:
+    vector<Card> m_hand1;
+    vector<Card> m_hand2;
+    PokerHands   m_pokerhands;
+};
+
+TEST_F(PokerHandsTestSuite, onePairShouldWinHighCard)
+{
+    m_hand1 = {string("5H"), string("6C"), string("7S"), string("8D"), string("TH")};
+    m_hand2 = {string("5H"), string("5C"), string("7S"), string("8D"), string("TH")};
     
-    cards2.emplace_back("5H");
-    cards2.emplace_back("5C");
-    cards2.emplace_back("7S");
-    cards2.emplace_back("8D");
-    cards2.emplace_back("TH");
-    
-    ASSERT_EQ(-1, PokerHands::compare(cards1, cards2));
-    ASSERT_EQ(1, PokerHands::compare(cards2, cards1));
+    ASSERT_EQ(-1, m_pokerhands.compare(m_hand1, m_hand2));
+    ASSERT_EQ(1, m_pokerhands.compare(m_hand2, m_hand1));
 }
 
-TEST(PokerHandsTestSuite, twoPairsShouldWinOnePair)
+TEST_F(PokerHandsTestSuite, twoPairsShouldWinOnePair)
 {
-    vector<Card> cards1, cards2;
-    cards1.emplace_back("5H");
-    cards1.emplace_back("5C");
-    cards1.emplace_back("7S");
-    cards1.emplace_back("7D");
-    cards1.emplace_back("TH");
+    m_hand1 = {string("5H"), string("5C"), string("7S"), string("7D"), string("TH")};
+    m_hand2 = {string("5H"), string("5C"), string("7S"), string("8D"), string("TH")};
     
-    cards2.emplace_back("5H");
-    cards2.emplace_back("5C");
-    cards2.emplace_back("7S");
-    cards2.emplace_back("8D");
-    cards2.emplace_back("TH");
-    
-    ASSERT_EQ(1, PokerHands::compare(cards1, cards2));
+    ASSERT_EQ(1, m_pokerhands.compare(m_hand1, m_hand2));
+    ASSERT_EQ(-1, m_pokerhands.compare(m_hand2, m_hand1));
 }
 
-TEST(PokerHandsTestSuite, oneHighCardWithHighestValueShouldWinTheOtherHighCard)
+TEST_F(PokerHandsTestSuite, oneHighCardWithHighestValueShouldWinTheOtherHighCard)
 {
-    vector<Card> cards1, cards2;
-    cards1.emplace_back("5H");
-    cards1.emplace_back("4C");
-    cards1.emplace_back("7S");
-    cards1.emplace_back("8D");
-    cards1.emplace_back("TH");
-    
-    cards2.emplace_back("QH");
-    cards2.emplace_back("5C");
-    cards2.emplace_back("7S");
-    cards2.emplace_back("8D");
-    cards2.emplace_back("TH");
-    
-    ASSERT_EQ(-1, PokerHands::compare(cards1, cards2));
-    ASSERT_EQ(1, PokerHands::compare(cards2, cards1));
+    m_hand1 = {string("5H"), string("4C"), string("7S"), string("8D"), string("TH")};
+    m_hand2 = {string("QH"), string("5C"), string("7S"), string("8D"), string("TH")};
+
+    ASSERT_EQ(-1, m_pokerhands.compare(m_hand1, m_hand2));
+    ASSERT_EQ(1, m_pokerhands.compare(m_hand2, m_hand1));
 }
 
-TEST(PokerHandsTestSuite, onePairCardWithHighestValueShouldWinOnePairWithLessValue)
+TEST_F(PokerHandsTestSuite, onePairCardWithHighestValueShouldWinOnePairWithLessValue)
 {
-    vector<Card> cards1, cards2;
-    cards1.emplace_back("5H");
-    cards1.emplace_back("5C");
-    cards1.emplace_back("7S");
-    cards1.emplace_back("8D");
-    cards1.emplace_back("TH");
+    m_hand1 = {string("5H"), string("5C"), string("7S"), string("8D"), string("TH")};
+    m_hand2 = {string("QH"), string("7C"), string("7S"), string("8D"), string("TH")};
     
-    cards2.emplace_back("QH");
-    cards2.emplace_back("7C");
-    cards2.emplace_back("7S");
-    cards2.emplace_back("8D");
-    cards2.emplace_back("TH");
-    
-    ASSERT_EQ(-1, PokerHands::compare(cards1, cards2));
-    ASSERT_EQ(1, PokerHands::compare(cards2, cards1));
+    ASSERT_EQ(-1, m_pokerhands.compare(m_hand1, m_hand2));
+    ASSERT_EQ(1, m_pokerhands.compare(m_hand2, m_hand1));
 }
 
-TEST(PokerHandsTestSuite, theHandWithHighestValueShouldWinInTwoHandsWithOneSamePair)
+TEST_F(PokerHandsTestSuite, theHandWithHighestValueShouldWinInTwoHandsWithOneSamePair)
 {
-    vector<Card> cards1, cards2;
-    cards1.emplace_back("5H");
-    cards1.emplace_back("5C");
-    cards1.emplace_back("7S");
-    cards1.emplace_back("8D");
-    cards1.emplace_back("TH");
-    
-    cards2.emplace_back("QH");
-    cards2.emplace_back("5C");
-    cards2.emplace_back("5S");
-    cards2.emplace_back("8D");
-    cards2.emplace_back("TH");
-    
-    ASSERT_EQ(-1, PokerHands::compare(cards1, cards2));
-    ASSERT_EQ(1, PokerHands::compare(cards2, cards1));
+    m_hand1 = {string("5H"), string("5C"), string("7S"), string("8D"), string("TH")};
+    m_hand2 = {string("QH"), string("5C"), string("5S"), string("8D"), string("TH")};
+
+    ASSERT_EQ(-1, m_pokerhands.compare(m_hand1, m_hand2));
+    ASSERT_EQ(1, m_pokerhands.compare(m_hand2, m_hand1));
 }
