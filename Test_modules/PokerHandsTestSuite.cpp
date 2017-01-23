@@ -46,7 +46,7 @@ TEST_F(PokerHandsTestSuite, onePairCardWithHighestValueShouldWinOnePairWithLessV
     ASSERT_EQ(1,  m_pokerhands.compare(m_hand2, m_hand1));
 }
 
-TEST_F(PokerHandsTestSuite, theHandWithHighestValueShouldWinInTwoHandsWithOneSamePair)
+TEST_F(PokerHandsTestSuite, theHandWithHighestValueShouldWinInSameOnePair)
 {
     m_hand1 = {std::string("5H"), std::string("5C"), std::string("7S"), std::string("8D"), std::string("TH")};
     m_hand2 = {std::string("QH"), std::string("5C"), std::string("5S"), std::string("8D"), std::string("TH")};

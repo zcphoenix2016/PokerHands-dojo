@@ -36,20 +36,11 @@ int PokerHands::compareOnePair(std::vector<Card> p_hand1, std::vector<Card> p_ha
     if (l_valueOfPair1 == l_valueOfPair2)
     {
         std::vector<Card> l_handWithoutPair1, l_handWithoutPair2;
-        for(auto l_card : p_hand1)
-        {
-            if(l_card.value() != l_valueOfPair1)
-            {
-                l_handWithoutPair1.push_back(l_card);
-            }
-        }
-        for(auto l_card : p_hand2)
-        {
-            if(l_card.value() != l_valueOfPair2)
-            {
-                l_handWithoutPair2.push_back(l_card);
-            }
-        }
+        std::copy_if(p_hand1.begin(), p_hand1.end(), std::back_inserter(l_handWithoutPair1), 
+                     [=](auto p_card){return p_card.value() != l_valueOfPair1;});
+        std::copy_if(p_hand2.begin(), p_hand2.end(), std::back_inserter(l_handWithoutPair2), 
+                     [=](auto p_card){return p_card.value() != l_valueOfPair2;});
+
         return findHighestValue(l_handWithoutPair1) > findHighestValue(l_handWithoutPair2) ? 1 : -1;
     }
     else
