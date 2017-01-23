@@ -1,9 +1,7 @@
 #pragma once
 
-#include <string>
 #include <vector>
-
-using namespace std;
+#include "Card.hpp"
 
 enum CardsRank
 {
@@ -12,23 +10,16 @@ enum CardsRank
     CARDS_RANK_TWO_PAIRS
 };
 
-class Card
-{
-public:
-    Card(const string&);
-    
-    int m_value;
-    char m_suit;   
-};
+const int INVALID_VALUE = -1;
 
 class PokerHands
 {
 public:
-     int compare(vector<Card>, vector<Card>);
+    int compare(std::vector<Card>, std::vector<Card>);
 private:
-     bool isOnePair(vector<Card>);
-     bool isTwoPairs(vector<Card>);
-     CardsRank calcRank(vector<Card>);
-     int findHighestVal(vector<Card>);
-     int getThePairValueFromOnePair(vector<Card>);
+    bool isOnePair(std::vector<Card>);
+    bool isTwoPairs(std::vector<Card>);
+    CardsRank calcRank(std::vector<Card>);
+    int findHighestVal(std::vector<Card>);
+    int getThePairValueFromOnePair(std::vector<Card>);
 };
