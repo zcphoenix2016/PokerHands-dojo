@@ -20,5 +20,4 @@ private:
     std::vector<int> valuesOfPairs(std::vector<Card>);
     HandRank         calcRank(std::vector<Card>);
     int              findHighestVal(std::vector<Card>);
-    int              getThePairValueFromOnePair(std::vector<Card>);
 };

@@ -10,19 +10,19 @@ int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
     {
         if(l_rank1 == HAND_RANK_ONE_PAIR)
         {
-            auto l_val1 = getThePairValueFromOnePair(p_hand1);
-            auto l_val2 = getThePairValueFromOnePair(p_hand2);
-            if (l_val1 == l_val2)
+            int l_valueOfPair1 = valuesOfPairs(p_hand1).front();
+            int l_valueOfPair2 = valuesOfPairs(p_hand2).front();
+            if (l_valueOfPair1 == l_valueOfPair2)
             {
                 p_hand1.erase(std::remove_if(p_hand1.begin(), p_hand1.end(),
-                          [=](auto p){return p.value() == l_val1;}), p_hand1.end());
+                          [=](auto p){return p.value() == l_valueOfPair1;}), p_hand1.end());
                 p_hand2.erase(std::remove_if(p_hand2.begin(), p_hand2.end(),
-                          [=](auto p){return p.value() == l_val1;}), p_hand2.end());
+                          [=](auto p){return p.value() == l_valueOfPair2;}), p_hand2.end());
                 return findHighestVal(p_hand1) > findHighestVal(p_hand2) ? 1 : -1;
             }
             else
             {
-                return l_val1 > l_val2 ? 1 : -1;
+                return l_valueOfPair1 > l_valueOfPair2 ? 1 : -1;
             }
         }
         return findHighestVal(p_hand1) > findHighestVal(p_hand2) ? 1 : -1;
@@ -34,9 +34,9 @@ int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
 HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 {
     HandRank l_rank = HAND_RANK_HIGH_CARD;
-    
+
     std::vector<int> l_valuesOfPairs = valuesOfPairs(p_hand);
-    
+
     if(2 == l_valuesOfPairs.size())
     {
         l_rank = HAND_RANK_TWO_PAIRS;
@@ -73,17 +73,6 @@ int PokerHands::findHighestVal(std::vector<Card> p_hand)
                        [](auto p_card1, auto p_card2){return p_card1.value() < p_card2.value();});
 
     return l_maxCard->value();
-}
-
-int PokerHands::getThePairValueFromOnePair(std::vector<Card> p_hand)
-{
-    for(auto l_iter = p_hand.begin(); l_iter != p_hand.end(); l_iter++)
-    {
-       if(2 == std::count_if(p_hand.begin(),p_hand.end(),
-                        [&](Card p_card){return p_card.value() == l_iter->value();}))
-           return l_iter->value();
-    }
-    return INVALID_VALUE;
 }
 
 
