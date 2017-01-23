@@ -17,9 +17,8 @@ class PokerHands
 public:
     int compare(std::vector<Card>, std::vector<Card>);
 private:
-    bool isOnePair(std::vector<Card>);
-    bool isTwoPairs(std::vector<Card>);
-    HandRank calcRank(std::vector<Card>);
-    int findHighestVal(std::vector<Card>);
-    int getThePairValueFromOnePair(std::vector<Card>);
+    std::vector<int> valuesOfPairs(std::vector<Card>);
+    HandRank         calcRank(std::vector<Card>);
+    int              findHighestVal(std::vector<Card>);
+    int              getThePairValueFromOnePair(std::vector<Card>);
 };

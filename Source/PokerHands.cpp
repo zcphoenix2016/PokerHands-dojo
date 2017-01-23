@@ -34,12 +34,14 @@ int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
 HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 {
     HandRank l_rank = HAND_RANK_HIGH_CARD;
-
-    if(isTwoPairs(p_hand))
+    
+    std::vector<int> l_valuesOfPairs = valuesOfPairs(p_hand);
+    
+    if(2 == l_valuesOfPairs.size())
     {
         l_rank = HAND_RANK_TWO_PAIRS;
     }
-    else if(isOnePair(p_hand))
+    else if(1 == l_valuesOfPairs.size())
     {
         l_rank = HAND_RANK_ONE_PAIR;
     }
@@ -47,41 +49,22 @@ HandRank PokerHands::calcRank(std::vector<Card> p_hand)
     return l_rank;
 }
 
-bool PokerHands::isOnePair(std::vector<Card> p_hand)
+std::vector<int> PokerHands::valuesOfPairs(std::vector<Card> p_hand)
 {
-    for(auto l_iter = p_hand.begin(); l_iter != p_hand.end(); l_iter++)
-    {
-       if(2 == std::count_if(p_hand.begin(),p_hand.end(),
-                        [&](Card p_card){return p_card.value() == l_iter->value();}))
-           return true;
-    }
-    return false;
-}
-
-bool PokerHands::isTwoPairs(std::vector<Card> p_hand)
-{
-    std::sort(p_hand.begin(), p_hand.end(),
-        [](auto p_card1, auto p_card2){return p_card1.value() < p_card2.value();});
-
-    int l_count = 0;
+    std::vector<int> l_valuesOfPairs;
     for(auto l_iter = p_hand.begin(); l_iter != p_hand.end(); l_iter ++)
     {
-        if(2 == std::count_if(p_hand.begin(),p_hand.end(),
-                        [&](Card p_card){return p_card.value() == l_iter->value();}))
+        if(2 == std::count_if(p_hand.begin(), p_hand.end(),
+                              [&](Card p_card){return p_card.value() == l_iter->value();}))
         {
-            l_count ++;
-            l_iter ++;
+            if(l_valuesOfPairs.end() == std::find(l_valuesOfPairs.begin(), l_valuesOfPairs.end(), l_iter->value()))
+            {
+                l_valuesOfPairs.push_back(l_iter->value());
+            }
         }
     }
 
-    if (2 == l_count)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return l_valuesOfPairs;
 }
 
 int PokerHands::findHighestVal(std::vector<Card> p_hand)
