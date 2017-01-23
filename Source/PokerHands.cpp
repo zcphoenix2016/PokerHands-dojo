@@ -10,6 +10,11 @@ int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
     {
         return l_rank1 > l_rank2 ? 1 : -1;
     }
+    
+    if(l_rank1 == HAND_RANK_TWO_PAIRS)
+    {
+        return compareTwoPairs(p_hand1, p_hand2);
+    }
 
     if(l_rank1 == HAND_RANK_ONE_PAIR)
     {
@@ -33,7 +38,11 @@ int PokerHands::compareOnePair(std::vector<Card> p_hand1, std::vector<Card> p_ha
 {
     int l_valueOfPair1 = valuesOfPairs(p_hand1).front();
     int l_valueOfPair2 = valuesOfPairs(p_hand2).front();
-    if (l_valueOfPair1 == l_valueOfPair2)
+    if(l_valueOfPair1 != l_valueOfPair2)
+    {
+        return l_valueOfPair1 > l_valueOfPair2 ? 1 : -1;
+    }
+    else
     {
         std::vector<Card> l_handWithoutPair1, l_handWithoutPair2;
         std::copy_if(p_hand1.begin(), p_hand1.end(), std::back_inserter(l_handWithoutPair1),
@@ -43,10 +52,17 @@ int PokerHands::compareOnePair(std::vector<Card> p_hand1, std::vector<Card> p_ha
 
         return findHighestValue(l_handWithoutPair1) > findHighestValue(l_handWithoutPair2) ? 1 : -1;
     }
-    else
-    {
-        return l_valueOfPair1 > l_valueOfPair2 ? 1 : -1;
-    }
+}
+
+int PokerHands::compareTwoPairs(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
+{
+    std::vector<int> l_valuesOfPair1 = valuesOfPairs(p_hand1);
+    std::vector<int> l_valuesOfPair2 = valuesOfPairs(p_hand2);
+
+    auto l_maxValueOfPair1 = std::max_element(l_valuesOfPair1.begin(), l_valuesOfPair1.end());
+    auto l_maxValueOfPair2 = std::max_element(l_valuesOfPair2.begin(), l_valuesOfPair2.end());
+
+    return *l_maxValueOfPair1 > *l_maxValueOfPair2 ? 1 : -1;
 }
 
 HandRank PokerHands::calcRank(std::vector<Card> p_hand)
