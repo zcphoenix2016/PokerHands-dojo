@@ -21,7 +21,6 @@ private:
     std::vector<int> valuesOfPairs(std::vector<Card>);
     bool             isThreeKind(std::vector<Card>);
     HandRank         calcRank(std::vector<Card>);
-    int              findHighestValue(std::vector<Card>);
     int              findValueOfThreeKind(std::vector<Card>);
     int              compareHighCard(std::vector<Card>, std::vector<Card>);
     int              compareOnePair(std::vector<Card>, std::vector<Card>);
