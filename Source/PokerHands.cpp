@@ -61,31 +61,24 @@ int PokerHands::compareTwoPairs(std::vector<Card> p_hand1, std::vector<Card> p_h
 
     if(not std::equal(l_valuesOfPair1.begin(), l_valuesOfPair1.end(), l_valuesOfPair2.begin()))
     {
-        return std::lexicographical_compare(l_valuesOfPair1.begin(), l_valuesOfPair1.end(), 
+        return std::lexicographical_compare(l_valuesOfPair1.begin(), l_valuesOfPair1.end(),
                                             l_valuesOfPair2.begin(), l_valuesOfPair2.end()) ? -1 : 1;
     }
     else
     {
-        int l_highCardValue1 = 0, l_highCardValue2 = 0;
-        for(auto l_card : p_hand1)
+        struct
         {
-            if(not std::binary_search(l_valuesOfPair1.begin(), l_valuesOfPair1.end(), l_card.value()))
+            bool operator()(int p_value, std::vector<int>& p_values)
             {
-                l_highCardValue1 = l_card.value();
-                break;
+                return p_values.end() != std::find(p_values.begin(), p_values.end(), p_value);
             }
-        }
-        
-        for(auto l_card : p_hand2)
-        {
-            if(not std::binary_search(l_valuesOfPair2.begin(), l_valuesOfPair2.end(), l_card.value()))
-            {
-                l_highCardValue2 = l_card.value();
-                break;
-            }
-        }
-        
-        return l_highCardValue1 > l_highCardValue2 ? 1 : -1;
+        }l_contains;
+        auto l_highCard1 = std::find_if(p_hand1.begin(), p_hand1.end(),
+                                        [&](auto p_card){return not l_contains(p_card.value(), l_valuesOfPair1);});
+        auto l_highCard2 = std::find_if(p_hand2.begin(), p_hand2.end(),
+                                        [&](auto p_card){return not l_contains(p_card.value(), l_valuesOfPair2);});
+
+        return l_highCard1->value() > l_highCard2->value() ? 1 : -1;
     }
 }
 
