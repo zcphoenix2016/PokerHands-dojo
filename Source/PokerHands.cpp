@@ -138,7 +138,22 @@ int PokerHands::compareFlush(std::vector<Card> p_hand1, std::vector<Card> p_hand
 
 int PokerHands::compareFullHouse(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
 {
-    return findValueOfThreeKind(p_hand1) > findValueOfThreeKind(p_hand2) ? 1 : -1;
+    int l_valueOfThreeKind1 = findValueOfThreeKind(p_hand1);
+    int l_valueOfThreeKind2 = findValueOfThreeKind(p_hand2);
+
+    if(l_valueOfThreeKind1 != l_valueOfThreeKind2)
+    {
+        return findValueOfThreeKind(p_hand1) > findValueOfThreeKind(p_hand2) ? 1 : -1;
+    }
+    else
+    {
+        auto l_cardOfPair1 = std::find_if(p_hand1.begin(), p_hand1.end(),
+                                          [=](auto p_card){return p_card.value() != l_valueOfThreeKind1;});
+        auto l_cardOfPair2 = std::find_if(p_hand2.begin(), p_hand2.end(),
+                                          [=](auto p_card){return p_card.value() != l_valueOfThreeKind2;});
+
+        return l_cardOfPair1->value() > l_cardOfPair2->value() ? 1 : -1;
+    }
 }
 
 int PokerHands::findValueOfThreeKind(std::vector<Card> p_hand)
