@@ -188,6 +188,22 @@ bool PokerHands::isThreeKind(std::vector<Card> p_hand)
     return false;
 }
 
+bool PokerHands::isFourKind(std::vector<Card> p_hand)
+{
+    auto l_card = p_hand.begin();
+    while(l_card != p_hand.end())
+    {
+        if(4 == std::count_if(p_hand.begin(), p_hand.end(),
+                              [&](auto p_card){return p_card.value() == l_card->value();}))
+        {
+            return true;
+        }
+        l_card ++;
+    }
+
+    return false;
+}
+
 bool PokerHands::isStraight(std::vector<Card> p_hand)
 {
     auto l_comparer = [](Card p_card1, Card p_card2){return p_card1.value() < p_card2.value();};
@@ -220,7 +236,11 @@ HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 {
     HandRank l_rank = HAND_RANK_HIGH_CARD;
 
-    if(isFullHouse(p_hand))
+    if(isFourKind(p_hand))
+    {
+        l_rank = HAND_RANK_FOUR_KIND;
+    }
+    else if(isFullHouse(p_hand))
     {
         l_rank = HAND_RANK_FULL_HOUSE;
     }

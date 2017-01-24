@@ -11,7 +11,8 @@ enum HandRank
     HAND_RANK_THREE_KIND,
     HAND_RANK_STRAIGHT,
     HAND_RANK_FLUSH,
-    HAND_RANK_FULL_HOUSE
+    HAND_RANK_FULL_HOUSE,
+    HAND_RANK_FOUR_KIND
 };
 
 const int INVALID_VALUE = -1;
@@ -26,6 +27,7 @@ private:
     bool             isStraight(std::vector<Card>);
     bool             isFlush(std::vector<Card>);
     bool             isFullHouse(std::vector<Card>);
+    bool             isFourKind(std::vector<Card>);
     HandRank         calcRank(std::vector<Card>);
     int              findValueOfThreeKind(std::vector<Card>);
     int              compareHighCard(std::vector<Card>, std::vector<Card>);
