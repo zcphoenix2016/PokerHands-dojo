@@ -57,8 +57,17 @@ TEST_F(PokerHandsTestSuite, theHandWithHighestValueShouldWinInSameOnePair)
 
 TEST_F(PokerHandsTestSuite, twoPairWithHighestValueShouldWinTwoPairWithLessValue)
 {
-    m_hand1 = {std::string("5H"), std::string("5C"), std::string("8S"), std::string("8D"), std::string("TH")};
+    m_hand1 = {std::string("5H"), std::string("5C"), std::string("QS"), std::string("QD"), std::string("TH")};
     m_hand2 = {std::string("QH"), std::string("7C"), std::string("7S"), std::string("QD"), std::string("TH")};
+
+    ASSERT_EQ(-1, m_pokerhands.compare(m_hand1, m_hand2));
+    ASSERT_EQ(1,  m_pokerhands.compare(m_hand2, m_hand1));
+}
+
+TEST_F(PokerHandsTestSuite, theHandWithHighestValueShouldWinInSameTwoPairs)
+{
+    m_hand1 = {std::string("5H"), std::string("5C"), std::string("8S"), std::string("8D"), std::string("TH")};
+    m_hand2 = {std::string("5H"), std::string("5C"), std::string("8S"), std::string("8D"), std::string("AH")};
 
     ASSERT_EQ(-1, m_pokerhands.compare(m_hand1, m_hand2));
     ASSERT_EQ(1,  m_pokerhands.compare(m_hand2, m_hand1));
