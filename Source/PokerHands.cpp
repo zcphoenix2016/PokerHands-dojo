@@ -86,18 +86,41 @@ HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 {
     HandRank l_rank = HAND_RANK_HIGH_CARD;
 
-    std::vector<int> l_valuesOfPairs = valuesOfPairs(p_hand);
-
-    if(2 == l_valuesOfPairs.size())
+    if(isThreeKind(p_hand))
     {
-        l_rank = HAND_RANK_TWO_PAIRS;
+        l_rank = HAND_RANK_THREE_KIND;
     }
-    else if(1 == l_valuesOfPairs.size())
+    else
     {
-        l_rank = HAND_RANK_ONE_PAIR;
+        std::vector<int> l_valuesOfPairs = valuesOfPairs(p_hand);
+
+        if(2 == l_valuesOfPairs.size())
+        {
+            l_rank = HAND_RANK_TWO_PAIRS;
+        }
+        else if(1 == l_valuesOfPairs.size())
+        {
+            l_rank = HAND_RANK_ONE_PAIR;
+        }
     }
 
     return l_rank;
+}
+
+bool PokerHands::isThreeKind(std::vector<Card> p_hand)
+{
+    auto l_card = p_hand.begin();
+    while(l_card != p_hand.end())
+    {
+        if(3 == std::count_if(p_hand.begin(), p_hand.end(),
+                              [&](auto p_card){return p_card.value() == l_card->value();}))
+        {
+            return true;
+        }
+        l_card ++;
+    }
+
+    return false;
 }
 
 std::vector<int> PokerHands::valuesOfPairs(std::vector<Card> p_hand)
