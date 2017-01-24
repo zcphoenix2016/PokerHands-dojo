@@ -10,6 +10,11 @@ int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
     {
         return l_rank1 > l_rank2 ? 1 : -1;
     }
+    
+    if(l_rank1 == HAND_RANK_FLUSH)
+    {
+        return compareFlush(p_hand1, p_hand2);
+    }
 
     if(l_rank1 == HAND_RANK_STRAIGHT)
     {
@@ -117,6 +122,11 @@ int PokerHands::compareThreeKind(std::vector<Card> p_hand1, std::vector<Card> p_
 }
 
 int PokerHands::compareStraight(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
+{
+    return compareHighCard(p_hand1, p_hand2);
+}
+
+int PokerHands::compareFlush(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
 {
     return compareHighCard(p_hand1, p_hand2);
 }
