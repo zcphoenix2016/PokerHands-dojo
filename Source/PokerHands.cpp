@@ -91,8 +91,24 @@ int PokerHands::compareThreeKind(std::vector<Card> p_hand1, std::vector<Card> p_
 {
     int l_valueOfThreeKind1 = findValueOfThreeKind(p_hand1);
     int l_valueOfThreeKind2 = findValueOfThreeKind(p_hand2);
-    
-    return l_valueOfThreeKind1 > l_valueOfThreeKind2 ? 1 : -1;
+
+    if(l_valueOfThreeKind1 != l_valueOfThreeKind2)
+    {
+        return l_valueOfThreeKind1 > l_valueOfThreeKind2 ? 1 : -1;
+    }
+    else
+    {
+        std::vector<Card> l_handWithoutThreeKind1{}, l_handWithoutThreeKind2{};
+        std::copy_if(p_hand1.begin(), p_hand1.end(), std::back_inserter(l_handWithoutThreeKind1),
+                     [=](auto p_card){return p_card.value() != l_valueOfThreeKind1;});
+        std::copy_if(p_hand2.begin(), p_hand2.end(), std::back_inserter(l_handWithoutThreeKind2),
+                     [=](auto p_card){return p_card.value() != l_valueOfThreeKind2;});
+        auto l_comparer = [](Card p_card1, Card p_card2){return p_card1.value() < p_card2.value();};
+
+        return std::lexicographical_compare(l_handWithoutThreeKind1.begin(), l_handWithoutThreeKind1.end(),
+                                            l_handWithoutThreeKind2.begin(), l_handWithoutThreeKind2.end(),
+                                            l_comparer) ? -1 : 1;
+    }
 }
 
 int PokerHands::findValueOfThreeKind(std::vector<Card> p_hand)
