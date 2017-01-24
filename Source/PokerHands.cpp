@@ -11,6 +11,11 @@ int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
         return l_rank1 > l_rank2 ? 1 : -1;
     }
 
+    if(l_rank1 == HAND_RANK_FOUR_KIND)
+    {
+        return compareFourKind(p_hand1, p_hand2);
+    }
+
     if(l_rank1 == HAND_RANK_FULL_HOUSE)
     {
         return compareFullHouse(p_hand1, p_hand2);
@@ -107,8 +112,8 @@ int PokerHands::compareTwoPairs(std::vector<Card> p_hand1, std::vector<Card> p_h
 
 int PokerHands::compareThreeKind(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
 {
-    int l_valueOfThreeKind1 = findValueOfThreeKind(p_hand1);
-    int l_valueOfThreeKind2 = findValueOfThreeKind(p_hand2);
+    int l_valueOfThreeKind1 = getValueOfKinds(p_hand1, 3);
+    int l_valueOfThreeKind2 = getValueOfKinds(p_hand2, 3);
 
     if(l_valueOfThreeKind1 != l_valueOfThreeKind2)
     {
@@ -126,6 +131,14 @@ int PokerHands::compareThreeKind(std::vector<Card> p_hand1, std::vector<Card> p_
     }
 }
 
+int PokerHands::compareFourKind(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
+{
+    int l_valueOfFourKind1 = getValueOfKinds(p_hand1, 4);
+    int l_valueOfFourKind2 = getValueOfKinds(p_hand2, 4);
+
+    return l_valueOfFourKind1 > l_valueOfFourKind2 ? 1 : -1;
+}
+
 int PokerHands::compareStraight(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
 {
     return compareHighCard(p_hand1, p_hand2);
@@ -138,12 +151,12 @@ int PokerHands::compareFlush(std::vector<Card> p_hand1, std::vector<Card> p_hand
 
 int PokerHands::compareFullHouse(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
 {
-    int l_valueOfThreeKind1 = findValueOfThreeKind(p_hand1);
-    int l_valueOfThreeKind2 = findValueOfThreeKind(p_hand2);
+    int l_valueOfThreeKind1 = getValueOfKinds(p_hand1, 3);
+    int l_valueOfThreeKind2 = getValueOfKinds(p_hand2, 3);
 
     if(l_valueOfThreeKind1 != l_valueOfThreeKind2)
     {
-        return findValueOfThreeKind(p_hand1) > findValueOfThreeKind(p_hand2) ? 1 : -1;
+        return l_valueOfThreeKind1 > l_valueOfThreeKind2 ? 1 : -1;
     }
     else
     {
@@ -156,12 +169,12 @@ int PokerHands::compareFullHouse(std::vector<Card> p_hand1, std::vector<Card> p_
     }
 }
 
-int PokerHands::findValueOfThreeKind(std::vector<Card> p_hand)
+int PokerHands::getValueOfKinds(std::vector<Card> p_hand, int p_count)
 {
     auto l_card = p_hand.begin();
     while(l_card != p_hand.end())
     {
-        if(3 == std::count_if(p_hand.begin(), p_hand.end(),
+        if(p_count == std::count_if(p_hand.begin(), p_hand.end(),
                               [&](auto p_card){return p_card.value() == l_card->value();}))
         {
             return l_card->value();

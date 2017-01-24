@@ -174,3 +174,12 @@ TEST_F(PokerHandsTestSuite, fourOfAKindShouldWinFullHouse)
     ASSERT_EQ(1,  m_pokerhands.compare(m_hand1, m_hand2));
     ASSERT_EQ(-1, m_pokerhands.compare(m_hand2, m_hand1));
 }
+
+TEST_F(PokerHandsTestSuite, theHandWithHighestValueShouldWinInSameFourOfAKinds)
+{
+    m_hand1 = {std::string("8C"), std::string("KS"), std::string("KD"), std::string("KH"), std::string("KH")};
+    m_hand2 = {std::string("2H"), std::string("AH"), std::string("AH"), std::string("AD"), std::string("AS")};
+
+    ASSERT_EQ(-1, m_pokerhands.compare(m_hand1, m_hand2));
+    ASSERT_EQ(1,  m_pokerhands.compare(m_hand2, m_hand1));
+}

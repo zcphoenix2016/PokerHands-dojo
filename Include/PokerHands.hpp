@@ -29,7 +29,7 @@ private:
     bool             isFullHouse(std::vector<Card>);
     bool             isFourKind(std::vector<Card>);
     HandRank         calcRank(std::vector<Card>);
-    int              findValueOfThreeKind(std::vector<Card>);
+    int              getValueOfKinds(std::vector<Card>, int);
     int              compareHighCard(std::vector<Card>, std::vector<Card>);
     int              compareOnePair(std::vector<Card>, std::vector<Card>);
     int              compareTwoPairs(std::vector<Card>, std::vector<Card>);
@@ -37,4 +37,5 @@ private:
     int              compareStraight(std::vector<Card>, std::vector<Card>);
     int              compareFlush(std::vector<Card>, std::vector<Card>);
     int              compareFullHouse(std::vector<Card>, std::vector<Card>);
+    int              compareFourKind(std::vector<Card>, std::vector<Card>);
 };
