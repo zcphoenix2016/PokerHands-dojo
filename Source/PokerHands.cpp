@@ -169,11 +169,22 @@ bool PokerHands::isStraight(std::vector<Card> p_hand)
     return true;
 }
 
+bool PokerHands::isFlush(std::vector<Card> p_hand)
+{
+    char l_suit = p_hand[0].suit();
+
+    return std::all_of(p_hand.begin(), p_hand.end(), [=](auto p_card){return p_card.suit() == l_suit;});
+}
+
 HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 {
     HandRank l_rank = HAND_RANK_HIGH_CARD;
 
-    if(isStraight(p_hand))
+    if(isFlush(p_hand))
+    {
+        l_rank = HAND_RANK_FLUSH;
+    }
+    else if(isStraight(p_hand))
     {
         l_rank = HAND_RANK_STRAIGHT;
     }
