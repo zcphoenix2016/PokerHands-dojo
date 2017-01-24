@@ -175,7 +175,7 @@ int PokerHands::findValueOfThreeKind(std::vector<Card> p_hand)
 bool PokerHands::isThreeKind(std::vector<Card> p_hand)
 {
     auto l_card = p_hand.begin();
-    while(l_card != p_hand.end())
+    while(3 <= std::distance(l_card, p_hand.end()))
     {
         if(3 == std::count_if(p_hand.begin(), p_hand.end(),
                               [&](auto p_card){return p_card.value() == l_card->value();}))
@@ -191,7 +191,7 @@ bool PokerHands::isThreeKind(std::vector<Card> p_hand)
 bool PokerHands::isFourKind(std::vector<Card> p_hand)
 {
     auto l_card = p_hand.begin();
-    while(l_card != p_hand.end())
+    while(4 <= std::distance(l_card, p_hand.end()))
     {
         if(4 == std::count_if(p_hand.begin(), p_hand.end(),
                               [&](auto p_card){return p_card.value() == l_card->value();}))
