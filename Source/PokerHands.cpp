@@ -1,8 +1,6 @@
 #include "PokerHands.hpp"
 #include <algorithm>
 
-#include <iostream>
-
 int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
 {
     HandRank l_rank1 = calcRank(p_hand1);
@@ -11,6 +9,11 @@ int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
     if(l_rank1 != l_rank2)
     {
         return l_rank1 > l_rank2 ? 1 : -1;
+    }
+
+    if(l_rank1 == HAND_RANK_STRAIGHT)
+    {
+        return compareStraight(p_hand1, p_hand2);
     }
 
     if(l_rank1 == HAND_RANK_THREE_KIND)
@@ -113,6 +116,11 @@ int PokerHands::compareThreeKind(std::vector<Card> p_hand1, std::vector<Card> p_
     }
 }
 
+int PokerHands::compareStraight(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
+{
+    return compareHighCard(p_hand1, p_hand2);
+}
+
 int PokerHands::findValueOfThreeKind(std::vector<Card> p_hand)
 {
     auto l_card = p_hand.begin();
@@ -150,17 +158,15 @@ bool PokerHands::isStraight(std::vector<Card> p_hand)
     auto l_comparer = [](Card p_card1, Card p_card2){return p_card1.value() < p_card2.value();};
     std::sort(p_hand.begin(), p_hand.end(), l_comparer);
 
-    bool isConsecutive = true;
     for(int l_index = 1; l_index < p_hand.size(); l_index ++)
     {
         if(1 != p_hand[l_index].value() - p_hand[l_index - 1].value())
         {
-            isConsecutive = false;
-            break;
+            return false;
         }
     }
 
-    return isConsecutive;
+    return true;
 }
 
 HandRank PokerHands::calcRank(std::vector<Card> p_hand)

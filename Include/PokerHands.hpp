@@ -28,4 +28,5 @@ private:
     int              compareOnePair(std::vector<Card>, std::vector<Card>);
     int              compareTwoPairs(std::vector<Card>, std::vector<Card>);
     int              compareThreeKind(std::vector<Card>, std::vector<Card>);
+    int              compareStraight(std::vector<Card>, std::vector<Card>);
 };

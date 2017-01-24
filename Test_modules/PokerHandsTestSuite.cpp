@@ -111,3 +111,12 @@ TEST_F(PokerHandsTestSuite, straightShouldWinThreeOfAKind)
     ASSERT_EQ(-1, m_pokerhands.compare(m_hand1, m_hand2));
     ASSERT_EQ(1,  m_pokerhands.compare(m_hand2, m_hand1));
 }
+
+TEST_F(PokerHandsTestSuite, theHandWithHighCardShouldWinInTwoStraights)
+{
+    m_hand1 = {std::string("TH"), std::string("JC"), std::string("QS"), std::string("KD"), std::string("AH")};
+    m_hand2 = {std::string("5H"), std::string("6C"), std::string("7S"), std::string("8D"), std::string("9H")};
+
+    ASSERT_EQ(1,  m_pokerhands.compare(m_hand1, m_hand2));
+    ASSERT_EQ(-1, m_pokerhands.compare(m_hand2, m_hand1));
+}
