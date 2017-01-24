@@ -136,7 +136,19 @@ int PokerHands::compareFourKind(std::vector<Card> p_hand1, std::vector<Card> p_h
     int l_valueOfFourKind1 = getValueOfKinds(p_hand1, 4);
     int l_valueOfFourKind2 = getValueOfKinds(p_hand2, 4);
 
-    return l_valueOfFourKind1 > l_valueOfFourKind2 ? 1 : -1;
+    if(l_valueOfFourKind1 != l_valueOfFourKind2)
+    {
+        return l_valueOfFourKind1 > l_valueOfFourKind2 ? 1 : -1;
+    }
+    else
+    {
+        auto l_highCard1 = std::find_if(p_hand1.begin(), p_hand1.end(),
+                                        [=](auto p_card){return p_card.value() != l_valueOfFourKind1;});
+        auto l_highCard2 = std::find_if(p_hand2.begin(), p_hand2.end(),
+                                        [=](auto p_card){return p_card.value() != l_valueOfFourKind2;});
+
+        return l_highCard1->value() > l_highCard2->value() ? 1 : -1;
+    }
 }
 
 int PokerHands::compareStraight(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
