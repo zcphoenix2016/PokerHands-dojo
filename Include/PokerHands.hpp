@@ -34,4 +34,5 @@ private:
     int              compareThreeKind(std::vector<Card>, std::vector<Card>);
     int              compareStraight(std::vector<Card>, std::vector<Card>);
     int              compareFlush(std::vector<Card>, std::vector<Card>);
+    int              compareFullHouse(std::vector<Card>, std::vector<Card>);
 };
