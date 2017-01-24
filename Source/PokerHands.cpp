@@ -10,6 +10,11 @@ int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
     {
         return l_rank1 > l_rank2 ? 1 : -1;
     }
+    
+    if(l_rank1 == HAND_RANK_THREE_KIND)
+    {
+        return compareThreeKind(p_hand1, p_hand2);
+    }
 
     if(l_rank1 == HAND_RANK_TWO_PAIRS)
     {
@@ -82,6 +87,46 @@ int PokerHands::compareTwoPairs(std::vector<Card> p_hand1, std::vector<Card> p_h
     }
 }
 
+int PokerHands::compareThreeKind(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
+{
+    int l_valueOfThreeKind1 = findValueOfThreeKind(p_hand1);
+    int l_valueOfThreeKind2 = findValueOfThreeKind(p_hand2);
+    
+    return l_valueOfThreeKind1 > l_valueOfThreeKind2 ? 1 : -1;
+}
+
+int PokerHands::findValueOfThreeKind(std::vector<Card> p_hand)
+{
+    auto l_card = p_hand.begin();
+    while(l_card != p_hand.end())
+    {
+        if(3 == std::count_if(p_hand.begin(), p_hand.end(),
+                              [&](auto p_card){return p_card.value() == l_card->value();}))
+        {
+            return l_card->value();
+        }
+        l_card ++;
+    }
+    
+    return INVALID_VALUE;
+}
+
+bool PokerHands::isThreeKind(std::vector<Card> p_hand)
+{
+    auto l_card = p_hand.begin();
+    while(l_card != p_hand.end())
+    {
+        if(3 == std::count_if(p_hand.begin(), p_hand.end(),
+                              [&](auto p_card){return p_card.value() == l_card->value();}))
+        {
+            return true;
+        }
+        l_card ++;
+    }
+
+    return false;
+}
+
 HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 {
     HandRank l_rank = HAND_RANK_HIGH_CARD;
@@ -105,22 +150,6 @@ HandRank PokerHands::calcRank(std::vector<Card> p_hand)
     }
 
     return l_rank;
-}
-
-bool PokerHands::isThreeKind(std::vector<Card> p_hand)
-{
-    auto l_card = p_hand.begin();
-    while(l_card != p_hand.end())
-    {
-        if(3 == std::count_if(p_hand.begin(), p_hand.end(),
-                              [&](auto p_card){return p_card.value() == l_card->value();}))
-        {
-            return true;
-        }
-        l_card ++;
-    }
-
-    return false;
 }
 
 std::vector<int> PokerHands::valuesOfPairs(std::vector<Card> p_hand)
