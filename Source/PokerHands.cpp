@@ -77,13 +77,7 @@ int PokerHands::compareOnePair(std::vector<Card> p_hand1, std::vector<Card> p_ha
     }
     else
     {
-        std::vector<Card> l_handWithoutPair1, l_handWithoutPair2;
-        std::copy_if(p_hand1.begin(), p_hand1.end(), std::back_inserter(l_handWithoutPair1),
-                     [=](auto p_card){return p_card.value() != l_valueOfPair1;});
-        std::copy_if(p_hand2.begin(), p_hand2.end(), std::back_inserter(l_handWithoutPair2),
-                     [=](auto p_card){return p_card.value() != l_valueOfPair2;});
-
-        return compareHighCard(l_handWithoutPair1, l_handWithoutPair2);
+        return compareHighCard(p_hand1, p_hand2);
     }
 }
 
@@ -99,19 +93,7 @@ int PokerHands::compareTwoPairs(std::vector<Card> p_hand1, std::vector<Card> p_h
     }
     else
     {
-        struct
-        {
-            bool operator()(int p_value, std::vector<int>& p_values)
-            {
-                return p_values.end() != std::find(p_values.begin(), p_values.end(), p_value);
-            }
-        }l_contains;
-        auto l_highCard1 = std::find_if(p_hand1.begin(), p_hand1.end(),
-                                        [&](auto p_card){return not l_contains(p_card.value(), l_valuesOfPair1);});
-        auto l_highCard2 = std::find_if(p_hand2.begin(), p_hand2.end(),
-                                        [&](auto p_card){return not l_contains(p_card.value(), l_valuesOfPair2);});
-
-        return l_highCard1->value() > l_highCard2->value() ? 1 : -1;
+        return compareHighCard(p_hand1, p_hand2);
     }
 }
 
