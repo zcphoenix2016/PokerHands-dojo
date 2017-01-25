@@ -40,4 +40,5 @@ private:
     int              compareFlush(std::vector<Card>, std::vector<Card>);
     int              compareFullHouse(std::vector<Card>, std::vector<Card>);
     int              compareFourKind(std::vector<Card>, std::vector<Card>);
+    int              compareStraightFlush(std::vector<Card>, std::vector<Card>);
 };
