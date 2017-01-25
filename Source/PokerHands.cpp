@@ -193,18 +193,20 @@ int PokerHands::compareFullHouse(std::vector<Card> p_hand1, std::vector<Card> p_
 
 int PokerHands::getValueOfKinds(std::vector<Card> p_hand, int p_count)
 {
+    int l_valueOfKind = 0;
     auto l_card = p_hand.begin();
     while(l_card != p_hand.end())
     {
         if(p_count == std::count_if(p_hand.begin(), p_hand.end(),
                               [&](auto p_card){return p_card.value() == l_card->value();}))
         {
-            return l_card->value();
+            l_valueOfKind = l_card->value();
+            break;
         }
         l_card ++;
     }
 
-    return INVALID_VALUE;
+    return l_valueOfKind;
 }
 
 bool PokerHands::isThreeKind(std::vector<Card> p_hand)
@@ -271,6 +273,11 @@ bool PokerHands::isStraightFlush(std::vector<Card> p_hand)
     return true;
 }
 
+bool PokerHands::isRoyalFlush(std::vector<Card> p_hand)
+{
+    return isStraightFlush(p_hand) and (10 == p_hand[0].value());
+}
+
 bool PokerHands::isFullHouse(std::vector<Card> p_hand)
 {
     return isThreeKind(p_hand) and (1 == valuesOfPairs(p_hand).size());
@@ -287,7 +294,11 @@ HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 {
     HandRank l_rank = HAND_RANK_HIGH_CARD;
 
-    if(isStraightFlush(p_hand))
+    if(isRoyalFlush(p_hand))
+    {
+        l_rank = HAND_RANK_ROYAL_FLUSH;
+    }
+    else if(isStraightFlush(p_hand))
     {
         l_rank = HAND_RANK_STRAIGHT_FLUSH;
     }
