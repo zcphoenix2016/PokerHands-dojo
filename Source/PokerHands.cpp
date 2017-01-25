@@ -256,18 +256,7 @@ bool PokerHands::isStraight(std::vector<Card> p_hand)
 
 bool PokerHands::isStraightFlush(std::vector<Card> p_hand)
 {
-    if(not isStraight(p_hand))
-    {
-        return false;
-    }
-
-    char l_suit = p_hand[0].suit();
-    if(std::any_of(p_hand.begin(), p_hand.end(), [=](auto p_card){return p_card.suit() != l_suit;}))
-    {
-        return false;
-    }
-
-    return true;
+    return isStraight(p_hand) and isFlush(p_hand);
 }
 
 bool PokerHands::isRoyalFlush(std::vector<Card> p_hand)
