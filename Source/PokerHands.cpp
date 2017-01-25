@@ -245,6 +245,22 @@ bool PokerHands::isStraight(std::vector<Card> p_hand)
     return true;
 }
 
+bool PokerHands::isStraightFlush(std::vector<Card> p_hand)
+{
+    if(not isStraight(p_hand))
+    {
+        return false;
+    }
+
+    char l_suit = p_hand[0].suit();
+    if(std::any_of(p_hand.begin(), p_hand.end(), [=](auto p_card){return p_card.suit() != l_suit;}))
+    {
+        return false;
+    }
+
+    return true;
+}
+
 bool PokerHands::isFullHouse(std::vector<Card> p_hand)
 {
     return isThreeKind(p_hand) and (1 == valuesOfPairs(p_hand).size());
@@ -261,7 +277,11 @@ HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 {
     HandRank l_rank = HAND_RANK_HIGH_CARD;
 
-    if(isFourKind(p_hand))
+    if(isStraightFlush(p_hand))
+    {
+        l_rank = HAND_RANK_STRAIGHT_FLUSH;
+    }
+    else if(isFourKind(p_hand))
     {
         l_rank = HAND_RANK_FOUR_KIND;
     }
