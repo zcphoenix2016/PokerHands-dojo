@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <map>
+#include <functional>
 #include "Card.hpp"
 
 enum HandRank
@@ -20,6 +22,7 @@ enum HandRank
 class PokerHands
 {
 public:
+    PokerHands();
     int compare(std::vector<Card>, std::vector<Card>);
 private:
     std::vector<int> getValuesOfPairs(std::vector<Card>);
@@ -39,4 +42,7 @@ private:
     int              compareFullHouse(std::vector<Card>, std::vector<Card>);
     int              compareFourKind(std::vector<Card>, std::vector<Card>);
     int              compareStraightFlush(std::vector<Card>, std::vector<Card>);
+
+    using Comparers = std::map<HandRank, std::function<int(PokerHands&, std::vector<Card>, std::vector<Card>)>>;
+    Comparers        m_comparers;
 };

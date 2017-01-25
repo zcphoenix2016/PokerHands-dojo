@@ -1,6 +1,21 @@
 #include "PokerHands.hpp"
 #include <algorithm>
 
+PokerHands::PokerHands()
+{
+    m_comparers = {
+                    {HAND_RANK_HIGH_CARD,      &PokerHands::compareHighCard},
+                    {HAND_RANK_ONE_PAIR,       &PokerHands::compareOnePair},
+                    {HAND_RANK_TWO_PAIRS,      &PokerHands::compareTwoPairs},
+                    {HAND_RANK_THREE_KIND,     &PokerHands::compareThreeKind},
+                    {HAND_RANK_STRAIGHT,       &PokerHands::compareStraight},
+                    {HAND_RANK_FLUSH,          &PokerHands::compareFlush},
+                    {HAND_RANK_FULL_HOUSE,     &PokerHands::compareFullHouse},
+                    {HAND_RANK_FOUR_KIND,      &PokerHands::compareFourKind},
+                    {HAND_RANK_STRAIGHT_FLUSH, &PokerHands::compareStraightFlush}
+                  };
+}
+
 int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
 {
     HandRank l_rank1 = calcRank(p_hand1);
@@ -11,52 +26,7 @@ int PokerHands::compare(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
         return l_rank1 > l_rank2 ? 1 : -1;
     }
 
-    if(l_rank1 == HAND_RANK_STRAIGHT_FLUSH)
-    {
-        return compareStraightFlush(p_hand1, p_hand2);
-    }
-
-    if(l_rank1 == HAND_RANK_FOUR_KIND)
-    {
-        return compareFourKind(p_hand1, p_hand2);
-    }
-
-    if(l_rank1 == HAND_RANK_FULL_HOUSE)
-    {
-        return compareFullHouse(p_hand1, p_hand2);
-    }
-
-    if(l_rank1 == HAND_RANK_FLUSH)
-    {
-        return compareFlush(p_hand1, p_hand2);
-    }
-
-    if(l_rank1 == HAND_RANK_STRAIGHT)
-    {
-        return compareStraight(p_hand1, p_hand2);
-    }
-
-    if(l_rank1 == HAND_RANK_THREE_KIND)
-    {
-        return compareThreeKind(p_hand1, p_hand2);
-    }
-
-    if(l_rank1 == HAND_RANK_TWO_PAIRS)
-    {
-        return compareTwoPairs(p_hand1, p_hand2);
-    }
-
-    if(l_rank1 == HAND_RANK_ONE_PAIR)
-    {
-        return compareOnePair(p_hand1, p_hand2);
-    }
-
-    if(l_rank1 == HAND_RANK_HIGH_CARD)
-    {
-        return compareHighCard(p_hand1, p_hand2);
-    }
-
-    return 0;
+    return m_comparers[l_rank1](*this, p_hand1, p_hand2);
 }
 
 int PokerHands::compareHighCard(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
