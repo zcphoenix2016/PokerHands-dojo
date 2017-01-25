@@ -243,9 +243,6 @@ bool PokerHands::isFourKind(std::vector<Card> p_hand)
 
 bool PokerHands::isStraight(std::vector<Card> p_hand)
 {
-    auto l_comparer = [](Card p_card1, Card p_card2){return p_card1.value() < p_card2.value();};
-    std::sort(p_hand.begin(), p_hand.end(), l_comparer);
-
     for(int l_index = 1; l_index < p_hand.size(); l_index ++)
     {
         if(1 != p_hand[l_index].value() - p_hand[l_index - 1].value())
@@ -290,8 +287,16 @@ bool PokerHands::isFlush(std::vector<Card> p_hand)
     return std::all_of(p_hand.begin(), p_hand.end(), [=](auto p_card){return p_card.suit() == l_suit;});
 }
 
+void PokerHands::sortHand(std::vector<Card> p_hand)
+{
+    auto l_comparer = [](Card p_card1, Card p_card2){return p_card1.value() < p_card2.value();};
+    std::sort(p_hand.begin(), p_hand.end(), l_comparer);
+}
+
 HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 {
+    sortHand(p_hand);
+
     HandRank l_rank = HAND_RANK_HIGH_CARD;
 
     if(isRoyalFlush(p_hand))

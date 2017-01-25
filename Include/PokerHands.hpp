@@ -31,6 +31,7 @@ private:
     bool             isStraightFlush(std::vector<Card>);
     bool             isRoyalFlush(std::vector<Card>);
     HandRank         calcRank(std::vector<Card>);
+    void             sortHand(std::vector<Card>);
     int              getValueOfKinds(std::vector<Card>, int);
     int              compareHighCard(std::vector<Card>, std::vector<Card>);
     int              compareOnePair(std::vector<Card>, std::vector<Card>);
