@@ -126,6 +126,7 @@ int PokerHands::compareThreeKind(std::vector<Card> p_hand1, std::vector<Card> p_
     }
     else
     {
+        /*
         std::vector<Card> l_handWithoutThreeKind1{}, l_handWithoutThreeKind2{};
         std::copy_if(p_hand1.begin(), p_hand1.end(), std::back_inserter(l_handWithoutThreeKind1),
                      [=](auto p_card){return p_card.value() != l_valueOfThreeKind1;});
@@ -133,6 +134,8 @@ int PokerHands::compareThreeKind(std::vector<Card> p_hand1, std::vector<Card> p_
                      [=](auto p_card){return p_card.value() != l_valueOfThreeKind2;});
 
         return compareHighCard(l_handWithoutThreeKind1, l_handWithoutThreeKind2);
+        */
+        return compareHighCard(p_hand1, p_hand2);
     }
 }
 
