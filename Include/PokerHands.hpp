@@ -29,7 +29,9 @@ private:
     bool             isThreeOrFourKind(std::vector<Card>, int&);
     bool             isStraight(std::vector<Card>);
     bool             isFlush(std::vector<Card>);
-    HandRank         calcRankOnFlushAndStraight(bool, bool, int);
+    HandRank         calcRankForKindOrFullHouse(int, int);
+    HandRank         calcRankForPairOrHighCard(int);
+    HandRank         calcRankForFlushOrStraight(bool, bool, int);
     HandRank         calcRank(std::vector<Card>);
     void             sortHand(std::vector<Card>);
     int              getValueOfKinds(std::vector<Card>, int);

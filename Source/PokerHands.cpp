@@ -194,7 +194,7 @@ void PokerHands::sortHand(std::vector<Card> p_hand)
     std::sort(p_hand.begin(), p_hand.end(), l_comparer);
 }
 
-HandRank PokerHands::calcRankOnFlushAndStraight(bool p_isFlush, bool p_isStraight, int p_firstValue)
+HandRank PokerHands::calcRankForFlushOrStraight(bool p_isFlush, bool p_isStraight, int p_firstValue)
 {
     if(p_isFlush && p_isStraight)
     {
@@ -217,6 +217,36 @@ HandRank PokerHands::calcRankOnFlushAndStraight(bool p_isFlush, bool p_isStraigh
     }
 }
 
+HandRank PokerHands::calcRankForKindOrFullHouse(int p_numOfKind, int p_numOfPairs)
+{
+    if(4 == p_numOfKind)
+    {
+        return HAND_RANK_FOUR_KIND;
+    }
+
+    if(1 == p_numOfPairs)
+    {
+        return HAND_RANK_FULL_HOUSE;
+    }
+
+    return HAND_RANK_THREE_KIND;
+}
+
+HandRank PokerHands::calcRankForPairOrHighCard(int p_numOfPairs)
+{
+    if(2 == p_numOfPairs)
+    {
+        return HAND_RANK_TWO_PAIRS;
+    }
+
+    if(1 == p_numOfPairs)
+    {
+        return HAND_RANK_ONE_PAIR;
+    }
+
+    return HAND_RANK_HIGH_CARD;
+}
+
 HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 {
     sortHand(p_hand);
@@ -226,7 +256,7 @@ HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 
     if(l_isFlush or l_isStraight)
     {
-        return calcRankOnFlushAndStraight(l_isFlush, l_isStraight, p_hand[0].value());
+        return calcRankForFlushOrStraight(l_isFlush, l_isStraight, p_hand[0].value());
     }
 
     int l_count = 0;
@@ -235,30 +265,10 @@ HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 
     if(isKind)
     {
-        if(4 == l_count)
-        {
-            return HAND_RANK_FOUR_KIND;
-        }
-
-        if(1 == l_valuesOfPairs.size())
-        {
-            return HAND_RANK_FULL_HOUSE;
-        }
-
-        return HAND_RANK_THREE_KIND;
+        return calcRankForKindOrFullHouse(l_count, l_valuesOfPairs.size());
     }
 
-    if(2 == l_valuesOfPairs.size())
-    {
-        return HAND_RANK_TWO_PAIRS;
-    }
-
-    if(1 == l_valuesOfPairs.size())
-    {
-        return HAND_RANK_ONE_PAIR;
-    }
-
-    return HAND_RANK_HIGH_CARD;
+    return calcRankForPairOrHighCard(l_valuesOfPairs.size());
 }
 
 std::vector<int> PokerHands::getValuesOfPairs(std::vector<Card> p_hand)
