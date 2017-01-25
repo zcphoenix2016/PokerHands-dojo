@@ -182,12 +182,7 @@ int PokerHands::compareFullHouse(std::vector<Card> p_hand1, std::vector<Card> p_
     }
     else
     {
-        auto l_cardOfPair1 = std::find_if(p_hand1.begin(), p_hand1.end(),
-                                          [=](auto p_card){return p_card.value() != l_valueOfThreeKind1;});
-        auto l_cardOfPair2 = std::find_if(p_hand2.begin(), p_hand2.end(),
-                                          [=](auto p_card){return p_card.value() != l_valueOfThreeKind2;});
-
-        return l_cardOfPair1->value() > l_cardOfPair2->value() ? 1 : -1;
+        return compareOnePair(p_hand1, p_hand2);
     }
 }
 
