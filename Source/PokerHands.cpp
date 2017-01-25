@@ -69,8 +69,8 @@ int PokerHands::compareHighCard(std::vector<Card> p_hand1, std::vector<Card> p_h
 
 int PokerHands::compareOnePair(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
 {
-    int l_valueOfPair1 = valuesOfPairs(p_hand1).front();
-    int l_valueOfPair2 = valuesOfPairs(p_hand2).front();
+    int l_valueOfPair1 = getValuesOfPairs(p_hand1).front();
+    int l_valueOfPair2 = getValuesOfPairs(p_hand2).front();
     if(l_valueOfPair1 != l_valueOfPair2)
     {
         return l_valueOfPair1 > l_valueOfPair2 ? 1 : -1;
@@ -89,8 +89,8 @@ int PokerHands::compareOnePair(std::vector<Card> p_hand1, std::vector<Card> p_ha
 
 int PokerHands::compareTwoPairs(std::vector<Card> p_hand1, std::vector<Card> p_hand2)
 {
-    std::vector<int> l_valuesOfPair1 = valuesOfPairs(p_hand1);
-    std::vector<int> l_valuesOfPair2 = valuesOfPairs(p_hand2);
+    std::vector<int> l_valuesOfPair1 = getValuesOfPairs(p_hand1);
+    std::vector<int> l_valuesOfPair2 = getValuesOfPairs(p_hand2);
 
     if(not std::equal(l_valuesOfPair1.begin(), l_valuesOfPair1.end(), l_valuesOfPair2.begin()))
     {
@@ -209,29 +209,15 @@ int PokerHands::getValueOfKinds(std::vector<Card> p_hand, int p_count)
     return l_valueOfKind;
 }
 
-bool PokerHands::isThreeKind(std::vector<Card> p_hand)
+bool PokerHands::isThreeOrFourKind(std::vector<Card> p_hand, int& p_count)
 {
+    p_count = 0;
     auto l_card = p_hand.begin();
-    while(3 <= std::distance(l_card, p_hand.end()))
+    while(2 < std::distance(l_card, p_hand.end()))
     {
-        if(3 == std::count_if(p_hand.begin(), p_hand.end(),
-                              [&](auto p_card){return p_card.value() == l_card->value();}))
-        {
-            return true;
-        }
-        l_card ++;
-    }
-
-    return false;
-}
-
-bool PokerHands::isFourKind(std::vector<Card> p_hand)
-{
-    auto l_card = p_hand.begin();
-    while(4 <= std::distance(l_card, p_hand.end()))
-    {
-        if(4 == std::count_if(p_hand.begin(), p_hand.end(),
-                              [&](auto p_card){return p_card.value() == l_card->value();}))
+        p_count = std::count_if(p_hand.begin(), p_hand.end(),
+                                [&](auto p_card){return p_card.value() == l_card->value();});
+        if(3 == p_count or 4 == p_count)
         {
             return true;
         }
@@ -254,21 +240,6 @@ bool PokerHands::isStraight(std::vector<Card> p_hand)
     return true;
 }
 
-bool PokerHands::isStraightFlush(std::vector<Card> p_hand)
-{
-    return isStraight(p_hand) and isFlush(p_hand);
-}
-
-bool PokerHands::isRoyalFlush(std::vector<Card> p_hand)
-{
-    return isStraightFlush(p_hand) and (10 == p_hand[0].value());
-}
-
-bool PokerHands::isFullHouse(std::vector<Card> p_hand)
-{
-    return isThreeKind(p_hand) and (1 == valuesOfPairs(p_hand).size());
-}
-
 bool PokerHands::isFlush(std::vector<Card> p_hand)
 {
     char l_suit = p_hand[0].suit();
@@ -282,58 +253,74 @@ void PokerHands::sortHand(std::vector<Card> p_hand)
     std::sort(p_hand.begin(), p_hand.end(), l_comparer);
 }
 
+HandRank PokerHands::calcRankOnFlushAndStraight(bool p_isFlush, bool p_isStraight, int p_firstValue)
+{
+    if(p_isFlush && p_isStraight)
+    {
+        if(0 == p_firstValue)
+        {
+            return HAND_RANK_ROYAL_FLUSH;
+        }
+        else
+        {
+            return HAND_RANK_STRAIGHT_FLUSH;
+        }
+    }
+    else if(p_isFlush)
+    {
+        return HAND_RANK_FLUSH;
+    }
+    else
+    {
+        return HAND_RANK_STRAIGHT;
+    }
+}
+
 HandRank PokerHands::calcRank(std::vector<Card> p_hand)
 {
     sortHand(p_hand);
 
-    HandRank l_rank = HAND_RANK_HIGH_CARD;
+    bool l_isFlush = isFlush(p_hand);
+    bool l_isStraight = isStraight(p_hand);
 
-    if(isRoyalFlush(p_hand))
+    if(l_isFlush or l_isStraight)
     {
-        l_rank = HAND_RANK_ROYAL_FLUSH;
+        return calcRankOnFlushAndStraight(l_isFlush, l_isStraight, p_hand[0].value());
     }
-    else if(isStraightFlush(p_hand))
-    {
-        l_rank = HAND_RANK_STRAIGHT_FLUSH;
-    }
-    else if(isFourKind(p_hand))
-    {
-        l_rank = HAND_RANK_FOUR_KIND;
-    }
-    else if(isFullHouse(p_hand))
-    {
-        l_rank = HAND_RANK_FULL_HOUSE;
-    }
-    else if(isFlush(p_hand))
-    {
-        l_rank = HAND_RANK_FLUSH;
-    }
-    else if(isStraight(p_hand))
-    {
-        l_rank = HAND_RANK_STRAIGHT;
-    }
-    else if(isThreeKind(p_hand))
-    {
-        l_rank = HAND_RANK_THREE_KIND;
-    }
-    else
-    {
-        std::vector<int> l_valuesOfPairs = valuesOfPairs(p_hand);
 
-        if(2 == l_valuesOfPairs.size())
+    int l_count = 0;
+    bool isKind = isThreeOrFourKind(p_hand, l_count);
+    std::vector<int> l_valuesOfPairs = getValuesOfPairs(p_hand);
+
+    if(isKind)
+    {
+        if(4 == l_count)
         {
-            l_rank = HAND_RANK_TWO_PAIRS;
+            return HAND_RANK_FOUR_KIND;
         }
-        else if(1 == l_valuesOfPairs.size())
+
+        if(1 == l_valuesOfPairs.size())
         {
-            l_rank = HAND_RANK_ONE_PAIR;
+            return HAND_RANK_FULL_HOUSE;
         }
+
+        return HAND_RANK_THREE_KIND;
     }
 
-    return l_rank;
+    if(2 == l_valuesOfPairs.size())
+    {
+        return HAND_RANK_TWO_PAIRS;
+    }
+
+    if(1 == l_valuesOfPairs.size())
+    {
+        return HAND_RANK_ONE_PAIR;
+    }
+
+    return HAND_RANK_HIGH_CARD;
 }
 
-std::vector<int> PokerHands::valuesOfPairs(std::vector<Card> p_hand)
+std::vector<int> PokerHands::getValuesOfPairs(std::vector<Card> p_hand)
 {
     std::vector<int> l_valuesOfPairs;
     for(auto l_iter = p_hand.begin(); l_iter != p_hand.end(); l_iter ++)

@@ -22,14 +22,11 @@ class PokerHands
 public:
     int compare(std::vector<Card>, std::vector<Card>);
 private:
-    std::vector<int> valuesOfPairs(std::vector<Card>);
-    bool             isThreeKind(std::vector<Card>);
+    std::vector<int> getValuesOfPairs(std::vector<Card>);
+    bool             isThreeOrFourKind(std::vector<Card>, int&);
     bool             isStraight(std::vector<Card>);
     bool             isFlush(std::vector<Card>);
-    bool             isFullHouse(std::vector<Card>);
-    bool             isFourKind(std::vector<Card>);
-    bool             isStraightFlush(std::vector<Card>);
-    bool             isRoyalFlush(std::vector<Card>);
+    HandRank         calcRankOnFlushAndStraight(bool, bool, int);
     HandRank         calcRank(std::vector<Card>);
     void             sortHand(std::vector<Card>);
     int              getValueOfKinds(std::vector<Card>, int);
