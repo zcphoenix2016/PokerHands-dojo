@@ -70,13 +70,13 @@ int PokerHands::compare(std::vector<Card>& p_hand1, std::vector<Card>& p_hand2)
 
     if(l_rank1 != l_rank2)
     {
-        return compareValue(l_rank1, l_rank2);
+        return compareValues(l_rank1, l_rank2);
     }
 
     return m_comparers[l_rank1](*this, p_hand1, p_hand2);
 }
 
-int PokerHands::compareValue(int p_lhs, int p_rhs)
+int PokerHands::compareValues(int p_lhs, int p_rhs)
 {
     return p_lhs < p_rhs ? -1 : 1;
 }
@@ -87,7 +87,7 @@ int PokerHands::compareHighCard(std::vector<Card>& p_hand1, std::vector<Card>& p
     {
         if(p_hand1[l_index].value() != p_hand2[l_index].value())
         {
-            return compareValue(p_hand1[l_index].value(), p_hand2[l_index].value());
+            return compareValues(p_hand1[l_index].value(), p_hand2[l_index].value());
         }
     }
 
@@ -100,7 +100,7 @@ int PokerHands::compareOnePair(std::vector<Card>& p_hand1, std::vector<Card>& p_
     int l_valueOfPair2 = getValuesOfPairs(p_hand2).front();
     if(l_valueOfPair1 != l_valueOfPair2)
     {
-        return compareValue(l_valueOfPair1, l_valueOfPair2);
+        return compareValues(l_valueOfPair1, l_valueOfPair2);
     }
     else
     {
@@ -119,7 +119,7 @@ int PokerHands::compareTwoPairs(std::vector<Card>& p_hand1, std::vector<Card>& p
         {
             if(l_valuesOfPair1[l_index] != l_valuesOfPair2[l_index])
             {
-                return compareValue(l_valuesOfPair1[l_index], l_valuesOfPair2[l_index]);
+                return compareValues(l_valuesOfPair1[l_index], l_valuesOfPair2[l_index]);
             }
         }
     }
@@ -136,7 +136,7 @@ int PokerHands::compareThreeKind(std::vector<Card>& p_hand1, std::vector<Card>& 
 
     if(l_valueOfThreeKind1 != l_valueOfThreeKind2)
     {
-        return compareValue(l_valueOfThreeKind1, l_valueOfThreeKind2);
+        return compareValues(l_valueOfThreeKind1, l_valueOfThreeKind2);
     }
     else
     {
@@ -151,7 +151,7 @@ int PokerHands::compareFourKind(std::vector<Card>& p_hand1, std::vector<Card>& p
 
     if(l_valueOfFourKind1 != l_valueOfFourKind2)
     {
-        return compareValue(l_valueOfFourKind1, l_valueOfFourKind2);
+        return compareValues(l_valueOfFourKind1, l_valueOfFourKind2);
     }
     else
     {
@@ -186,7 +186,7 @@ int PokerHands::compareFullHouse(std::vector<Card>& p_hand1, std::vector<Card>& 
 
     if(l_valueOfThreeKind1 != l_valueOfThreeKind2)
     {
-        return compareValue(l_valueOfThreeKind1, l_valueOfThreeKind2);
+        return compareValues(l_valueOfThreeKind1, l_valueOfThreeKind2);
     }
     else
     {

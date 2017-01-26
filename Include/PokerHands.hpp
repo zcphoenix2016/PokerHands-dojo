@@ -27,7 +27,7 @@ public:
     int handleFile(std::string);
 
 private:
-    int              compareValue(int, int);
+    int              compareValues(int, int);
     std::vector<int> getValuesOfPairs(std::vector<Card>&);
     bool             isThreeOrFourKind(std::vector<Card>&, int&);
     bool             isStraight(std::vector<Card>&);
