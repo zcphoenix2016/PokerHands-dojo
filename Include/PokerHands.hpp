@@ -4,7 +4,6 @@
 #include <map>
 #include <functional>
 #include "Card.hpp"
-#include <fstream>
 
 enum HandRank
 {
@@ -51,6 +50,4 @@ private:
 
     using Comparers = std::map<HandRank, std::function<int(PokerHands&, std::vector<Card>&, std::vector<Card>&)>>;
     Comparers        m_comparers;
-
-    std::ofstream m_ofs;
 };

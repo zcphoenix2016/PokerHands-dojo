@@ -1,6 +1,6 @@
 #include "PokerHands.hpp"
 #include <algorithm>
-//#include <fstream>
+#include <fstream>
 #include <iostream>
 
 PokerHands::PokerHands()
@@ -18,19 +18,6 @@ PokerHands::PokerHands()
                   };
 }
 
-std::map<HandRank, std::string> g_converter{
-                                             {HAND_RANK_HIGH_CARD,      "High Card"},
-                                             {HAND_RANK_ONE_PAIR,       "One Pair"},
-                                             {HAND_RANK_TWO_PAIRS,      "Two Pairs"},
-                                             {HAND_RANK_THREE_KIND,     "Three of a Kind"},
-                                             {HAND_RANK_STRAIGHT,       "Straight"},
-                                             {HAND_RANK_FLUSH,          "Flush"},
-                                             {HAND_RANK_FULL_HOUSE,     "Full House"},
-                                             {HAND_RANK_FOUR_KIND,      "Four of a Kind"},
-                                             {HAND_RANK_STRAIGHT_FLUSH, "Straight Flush"},
-                                             {HAND_RANK_ROYAL_FLUSH,    "Royal Flush"}
-                                           };
-
 int PokerHands::handleFile(std::string p_file)
 {
     std::ifstream l_ifs;
@@ -40,12 +27,9 @@ int PokerHands::handleFile(std::string p_file)
         return -1;
     }
 
-
-    m_ofs.open("test.txt", std::ios::trunc);
-
-    int l_count = 0, l_countOfLines = 0;
+    int l_count = 0;
     std::string l_card;
-    std::vector<Card> l_hand1{}, l_hand2{};
+    std::vector<Card> l_hand1, l_hand2;
     while(! l_ifs.eof())
     {
         l_ifs >> l_card;
@@ -66,43 +50,15 @@ int PokerHands::handleFile(std::string p_file)
             continue;
         }
 
-        l_countOfLines++;
-
         if(1 == compare(l_hand1, l_hand2))
         {
             l_count++;
-
-            m_ofs << "player1 wins !\n";
         }
-        else
-        {
-            m_ofs << "player2 wins !\n";
-        }
-
-        auto l_iter = l_hand1.begin();
-        while(l_iter != l_hand1.end())
-        {
-            m_ofs << l_iter->value() << l_iter->suit() << " ";
-            l_iter ++;
-        }
-        m_ofs << " | ";
-
-        l_iter = l_hand2.begin();
-        while(l_iter != l_hand2.end())
-        {
-            m_ofs << l_iter->value() << l_iter->suit() << " ";
-            l_iter ++;
-        }
-        m_ofs << "\n-----------------------------------------\n";
 
         l_hand1.clear();
         l_hand2.clear();
     }
-
-    m_ofs << "\n\nCount of lines:" << l_countOfLines;
-
     l_ifs.close();
-    m_ofs.close();
 
     return l_count;
 }
@@ -111,8 +67,6 @@ int PokerHands::compare(std::vector<Card>& p_hand1, std::vector<Card>& p_hand2)
 {
     HandRank l_rank1 = calcRank(p_hand1);
     HandRank l_rank2 = calcRank(p_hand2);
-
-    m_ofs << "l_rank1: " << g_converter[l_rank1] << ", l_rank2: " << g_converter[l_rank2] << "\n";
 
     if(l_rank1 != l_rank2)
     {
