@@ -4,6 +4,7 @@
 #include <map>
 #include <functional>
 #include "Card.hpp"
+#include <fstream>
 
 enum HandRank
 {
@@ -23,28 +24,33 @@ class PokerHands
 {
 public:
     PokerHands();
-    int compare(std::vector<Card>, std::vector<Card>);
+    int compare(std::vector<Card>&, std::vector<Card>&);
+    int handleFile(std::string);
+
 private:
-    std::vector<int> getValuesOfPairs(std::vector<Card>);
-    bool             isThreeOrFourKind(std::vector<Card>, int&);
-    bool             isStraight(std::vector<Card>);
-    bool             isFlush(std::vector<Card>);
+    int              compareValue(int, int);
+    std::vector<int> getValuesOfPairs(std::vector<Card>&);
+    bool             isThreeOrFourKind(std::vector<Card>&, int&);
+    bool             isStraight(std::vector<Card>&);
+    bool             isFlush(std::vector<Card>&);
     HandRank         calcRankForKindOrFullHouse(int, int);
     HandRank         calcRankForPairOrHighCard(int);
     HandRank         calcRankForFlushOrStraight(bool, bool, int);
-    HandRank         calcRank(std::vector<Card>);
-    void             sortHand(std::vector<Card>);
-    int              getValueOfKinds(std::vector<Card>, int);
-    int              compareHighCard(std::vector<Card>, std::vector<Card>);
-    int              compareOnePair(std::vector<Card>, std::vector<Card>);
-    int              compareTwoPairs(std::vector<Card>, std::vector<Card>);
-    int              compareThreeKind(std::vector<Card>, std::vector<Card>);
-    int              compareStraight(std::vector<Card>, std::vector<Card>);
-    int              compareFlush(std::vector<Card>, std::vector<Card>);
-    int              compareFullHouse(std::vector<Card>, std::vector<Card>);
-    int              compareFourKind(std::vector<Card>, std::vector<Card>);
-    int              compareStraightFlush(std::vector<Card>, std::vector<Card>);
+    HandRank         calcRank(std::vector<Card>&);
+    void             sortHand(std::vector<Card>&);
+    int              getValueOfKinds(std::vector<Card>&, int);
+    int              compareHighCard(std::vector<Card>&, std::vector<Card>&);
+    int              compareOnePair(std::vector<Card>&, std::vector<Card>&);
+    int              compareTwoPairs(std::vector<Card>&, std::vector<Card>&);
+    int              compareThreeKind(std::vector<Card>&, std::vector<Card>&);
+    int              compareStraight(std::vector<Card>&, std::vector<Card>&);
+    int              compareFlush(std::vector<Card>&, std::vector<Card>&);
+    int              compareFullHouse(std::vector<Card>&, std::vector<Card>&);
+    int              compareFourKind(std::vector<Card>&, std::vector<Card>&);
+    int              compareStraightFlush(std::vector<Card>&, std::vector<Card>&);
 
-    using Comparers = std::map<HandRank, std::function<int(PokerHands&, std::vector<Card>, std::vector<Card>)>>;
+    using Comparers = std::map<HandRank, std::function<int(PokerHands&, std::vector<Card>&, std::vector<Card>&)>>;
     Comparers        m_comparers;
+
+    std::ofstream m_ofs;
 };
