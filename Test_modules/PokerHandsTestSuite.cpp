@@ -21,8 +21,8 @@ TEST_F(PokerHandsTestSuite, onePairShouldWinHighCard)
 
 TEST_F(PokerHandsTestSuite, twoPairsShouldWinOnePair)
 {
-    m_hand1 = {std::string("5H"), std::string("5C"), std::string("7S"), std::string("7D"), std::string("TH")};
-    m_hand2 = {std::string("5H"), std::string("5C"), std::string("7S"), std::string("8D"), std::string("TH")};
+    m_hand1 = {std::string("5h"), std::string("5C"), std::string("7S"), std::string("7d"), std::string("TH")};
+    m_hand2 = {std::string("5H"), std::string("5c"), std::string("7S"), std::string("8D"), std::string("TH")};
 
     ASSERT_EQ(1,  m_pokerhands.compare(m_hand1, m_hand2));
     ASSERT_EQ(-1, m_pokerhands.compare(m_hand2, m_hand1));

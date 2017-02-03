@@ -1,4 +1,5 @@
 #include "Card.hpp"
+#include <cctype>
 
 std::map<char, int> Card::m_values{{'2', 2},
                                    {'3', 3},
@@ -17,7 +18,7 @@ std::map<char, int> Card::m_values{{'2', 2},
 Card::Card(const std::string& p_str)
 {
     m_value = Card::m_values[p_str[0]];
-    m_suit = p_str[1];
+    m_suit = std::toupper(p_str[1]);
 }
 
 bool Card::operator < (const Card& p_rhs)
