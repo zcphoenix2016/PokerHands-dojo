@@ -7,8 +7,9 @@ class Card
 {
 public:
     Card(const std::string&);
-    int value(){return m_value;}
-    char suit(){return m_suit;}
+    int value() const {return m_value;}
+    char suit() const {return m_suit;}
+    bool operator < (const Card&);
 
 private:
     int m_value;

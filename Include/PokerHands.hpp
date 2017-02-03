@@ -35,7 +35,6 @@ private:
     HandRank         calcRankForPairOrHighCard(int);
     HandRank         calcRankForFlushOrStraight(bool, bool, int);
     HandRank         calcRank(std::vector<Card>&);
-    void             sortHand(std::vector<Card>&);
     int              getValueOfKinds(std::vector<Card>&, int);
     int              compareHighCard(std::vector<Card>&, std::vector<Card>&);
     int              compareOnePair(std::vector<Card>&, std::vector<Card>&);

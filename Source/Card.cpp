@@ -19,3 +19,8 @@ Card::Card(const std::string& p_str)
     m_value = Card::m_values[p_str[0]];
     m_suit = p_str[1];
 }
+
+bool Card::operator < (const Card& p_rhs)
+{
+    return m_value < p_rhs.value();
+}
