@@ -220,8 +220,3 @@ TEST_F(PokerHandsTestSuite, royalFlushShouldWinstraightFlush)
     ASSERT_EQ(-1, m_pokerhands.compare(m_hand2, m_hand1));
 }
 
-TEST_F(PokerHandsTestSuite, testHandleFile)
-{
-    std::string l_file{"p054_poker.txt"};
-    ASSERT_EQ(376, m_pokerhands.handleFile(l_file));
-}

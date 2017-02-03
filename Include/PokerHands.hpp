@@ -24,7 +24,6 @@ class PokerHands
 public:
     PokerHands();
     int compare(std::vector<Card>&, std::vector<Card>&);
-    int handleFile(std::string);
 
 private:
     int              compareValues(int, int);
