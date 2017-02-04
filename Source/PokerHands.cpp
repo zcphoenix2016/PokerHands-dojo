@@ -18,6 +18,9 @@ PokerHands::PokerHands()
 
 int PokerHands::compare(std::vector<Card>& p_hand1, std::vector<Card>& p_hand2)
 {
+    std::sort(p_hand1.begin(), p_hand1.end());
+    std::sort(p_hand2.begin(), p_hand2.end());
+
     HandRank l_rank1 = calcRank(p_hand1);
     HandRank l_rank2 = calcRank(p_hand2);
 
@@ -258,8 +261,6 @@ HandRank PokerHands::calcRankForPairOrHighCard(int p_numOfPairs)
 
 HandRank PokerHands::calcRank(std::vector<Card>& p_hand)
 {
-    std::sort(p_hand.begin(), p_hand.end());
-
     bool l_isFlush = isFlush(p_hand);
     bool l_isStraight = isStraight(p_hand);
 
