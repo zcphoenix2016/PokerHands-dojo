@@ -157,7 +157,7 @@ int PokerHands::getValueOfKinds(std::vector<Card>& p_hand, int p_count)
     while(l_card != p_hand.end())
     {
         if(p_count == std::count_if(p_hand.begin(), p_hand.end(),
-                              [&](auto p_card){return p_card.value() == l_card->value();}))
+                                    [&](auto p_card){return p_card.value() == l_card->value();}))
         {
             l_valueOfKind = l_card->value();
             break;
