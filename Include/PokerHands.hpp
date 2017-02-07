@@ -5,6 +5,7 @@
 #include <functional>
 #include "Card.hpp"
 
+//Don't change the sequence because it's used for comparison by values
 enum HandRank
 {
     HAND_RANK_HIGH_CARD = 0,
@@ -49,3 +50,4 @@ private:
     using Comparers = std::map<HandRank, std::function<int(PokerHands&, std::vector<Card>&, std::vector<Card>&)>>;
     Comparers        m_comparers;
 };
+

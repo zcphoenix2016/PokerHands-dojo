@@ -210,7 +210,7 @@ HandRank PokerHands::calcRankForFlushOrStraight(bool p_isFlush, bool p_isStraigh
 {
     if(p_isFlush && p_isStraight)
     {
-        if(0 == p_firstValue)
+        if(10 == p_firstValue)
         {
             return HAND_RANK_ROYAL_FLUSH;
         }
