@@ -24,10 +24,9 @@ class PokerHands
 {
 public:
     PokerHands();
-    int compare(std::vector<Card>&, std::vector<Card>&);
+    int compareHands(std::vector<Card>&, std::vector<Card>&);
 
 private:
-    int              compareValues(int, int);
     std::vector<int> getValuesOfPairs(std::vector<Card>&);
     bool             isThreeOrFourKind(std::vector<Card>&, int&);
     bool             isStraight(std::vector<Card>&);
@@ -47,7 +46,16 @@ private:
     int              compareFourKind(std::vector<Card>&, std::vector<Card>&);
     int              compareStraightFlush(std::vector<Card>&, std::vector<Card>&);
 
+    template<typename T>
+    int compare(T&& p_lhs, T&& p_rhs)
+    {
+        return p_lhs < p_rhs ? -1 : 1;
+    }
+
     using Comparers = std::map<HandRank, std::function<int(PokerHands&, std::vector<Card>&, std::vector<Card>&)>>;
     Comparers        m_comparers;
 };
+
+template<>
+int PokerHands::compare<std::vector<Card>&>(std::vector<Card>&, std::vector<Card>&);
 
