@@ -7,12 +7,12 @@ class Card
 {
 public:
     Card(const std::string&);
-    int value() const {return m_value;}
+    int  value() const {return m_value;}
     char suit() const {return m_suit;}
     bool operator < (const Card&);
 
 private:
-    int m_value;
+    int  m_value;
     char m_suit;
-    static std::map<char, int> m_values;
+    const static std::map<char, int> m_values;
 };
