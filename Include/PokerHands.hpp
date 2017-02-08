@@ -5,7 +5,7 @@
 #include <functional>
 #include "Card.hpp"
 
-//Don't change the sequence because it's used for comparison by values
+//Do NOT change the sequence because the values are used for comparison
 enum HandRank
 {
     HAND_RANK_HIGH_CARD = 0,
