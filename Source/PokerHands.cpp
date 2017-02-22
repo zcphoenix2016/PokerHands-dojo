@@ -189,15 +189,8 @@ bool PokerHands::isThreeOrFourKind(std::vector<Card>& p_hand, int& p_count)
 
 bool PokerHands::isStraight(std::vector<Card>& p_hand)
 {
-    for(int l_index = 1; l_index < p_hand.size(); l_index ++)
-    {
-        if(1 != p_hand[l_index].value() - p_hand[l_index - 1].value())
-        {
-            return false;
-        }
-    }
-
-    return true;
+    auto l_predicate = [](Card p_card1, Card p_card2){return 1 != p_card2.value() - p_card1.value();};
+    return p_hand.end() == std::adjacent_find(p_hand.begin(), p_hand.end(), l_predicate);
 }
 
 bool PokerHands::isFlush(std::vector<Card>& p_hand)
