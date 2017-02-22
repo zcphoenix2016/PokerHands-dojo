@@ -111,17 +111,20 @@ int PokerHands::compareFourKind(std::vector<Card>& p_hand1, std::vector<Card>& p
 
 int PokerHands::compareStraight(std::vector<Card>& p_hand1, std::vector<Card>& p_hand2)
 {
-    return compareHighCard(p_hand1, p_hand2);
+    return std::lexicographical_compare(p_hand1.rbegin(), p_hand1.rend(),
+                                        p_hand2.rbegin(), p_hand2.rend()) ? -1 : 1;
 }
 
 int PokerHands::compareStraightFlush(std::vector<Card>& p_hand1, std::vector<Card>& p_hand2)
 {
-    return compareHighCard(p_hand1, p_hand2);
+    return std::lexicographical_compare(p_hand1.rbegin(), p_hand1.rend(),
+                                        p_hand2.rbegin(), p_hand2.rend()) ? -1 : 1;
 }
 
 int PokerHands::compareFlush(std::vector<Card>& p_hand1, std::vector<Card>& p_hand2)
 {
-    return compareHighCard(p_hand1, p_hand2);
+    return std::lexicographical_compare(p_hand1.rbegin(), p_hand1.rend(),
+                                        p_hand2.rbegin(), p_hand2.rend()) ? -1 : 1;
 }
 
 int PokerHands::compareFullHouse(std::vector<Card>& p_hand1, std::vector<Card>& p_hand2)
