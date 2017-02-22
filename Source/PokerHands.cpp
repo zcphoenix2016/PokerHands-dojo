@@ -173,7 +173,7 @@ bool PokerHands::isThreeOrFourKind(std::vector<Card>& p_hand, int& p_count)
 {
     p_count = 0;
     auto l_card = p_hand.begin();
-    while(2 < std::distance(l_card, p_hand.end()))
+    while(p_count <= std::distance(l_card, p_hand.end()))
     {
         p_count = std::count_if(p_hand.begin(), p_hand.end(),
                                 [&](auto p_card){return p_card.value() == l_card->value();});
@@ -278,16 +278,15 @@ HandRank PokerHands::calcRank(std::vector<Card>& p_hand)
 std::vector<int> PokerHands::getValuesOfPairs(std::vector<Card>& p_hand)
 {
     std::vector<int> l_valuesOfPairs;
-    for(auto l_iter = p_hand.begin(); l_iter != p_hand.end(); l_iter ++)
+    auto l_start = p_hand.begin(), l_diff = p_hand.begin();
+    while(l_diff != p_hand.end())
     {
-        if(2 == std::count_if(p_hand.begin(), p_hand.end(),
-                              [&](Card p_card){return p_card.value() == l_iter->value();}))
+        l_diff = std::find_if(l_start, p_hand.end(), [&](Card p_card){return p_card.value() != l_start->value();});
+        if(2 == std::distance(l_start, l_diff))
         {
-            if(l_valuesOfPairs.end() == std::find(l_valuesOfPairs.begin(), l_valuesOfPairs.end(), l_iter->value()))
-            {
-                l_valuesOfPairs.push_back(l_iter->value());
-            }
+            l_valuesOfPairs.push_back(l_start->value());
         }
+        l_start = l_diff;
     }
 
     return l_valuesOfPairs;
