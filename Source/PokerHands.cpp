@@ -40,15 +40,8 @@ int PokerHands::compare<std::vector<Card>&>(std::vector<Card>& p_hand1, std::vec
 
 int PokerHands::compareHighCard(std::vector<Card>& p_hand1, std::vector<Card>& p_hand2)
 {
-    for(int l_index = p_hand1.size() - 1; l_index >= 0 ; l_index --)
-    {
-        if(p_hand1[l_index].value() != p_hand2[l_index].value())
-        {
-            return compare(p_hand1[l_index].value(), p_hand2[l_index].value());
-        }
-    }
-
-    return 0;
+    return std::lexicographical_compare(p_hand1.rbegin(), p_hand1.rend(),
+                                        p_hand2.rbegin(), p_hand2.rend()) ? -1 : 1;
 }
 
 int PokerHands::compareOnePair(std::vector<Card>& p_hand1, std::vector<Card>& p_hand2)
@@ -173,7 +166,7 @@ bool PokerHands::isThreeOrFourKind(std::vector<Card>& p_hand, int& p_count)
 {
     p_count = 0;
     auto l_card = p_hand.begin();
-    while(p_count <= std::distance(l_card, p_hand.end()))
+    while(3 <= std::distance(l_card, p_hand.end()))
     {
         p_count = std::count_if(p_hand.begin(), p_hand.end(),
                                 [&](auto p_card){return p_card.value() == l_card->value();});
