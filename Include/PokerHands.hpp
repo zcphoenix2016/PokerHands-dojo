@@ -24,7 +24,7 @@ class PokerHands
 {
 public:
     PokerHands();
-    int compareHands(std::vector<Card>&, std::vector<Card>&);
+    int compare(std::vector<Card>&, std::vector<Card>&);
 
 private:
     std::vector<int> getValuesOfPairs(std::vector<Card>&);
@@ -36,26 +36,15 @@ private:
     HandRank         calcRankForFlushOrStraight(bool, bool, int);
     HandRank         calcRank(std::vector<Card>&);
     int              getValueOfKinds(std::vector<Card>&, int);
-    int              compareHighCard(std::vector<Card>&, std::vector<Card>&);
+    int              sequential_compare(std::vector<Card>&, std::vector<Card>&);
     int              compareOnePair(std::vector<Card>&, std::vector<Card>&);
     int              compareTwoPairs(std::vector<Card>&, std::vector<Card>&);
     int              compareThreeKind(std::vector<Card>&, std::vector<Card>&);
-    int              compareStraight(std::vector<Card>&, std::vector<Card>&);
-    int              compareFlush(std::vector<Card>&, std::vector<Card>&);
     int              compareFullHouse(std::vector<Card>&, std::vector<Card>&);
     int              compareFourKind(std::vector<Card>&, std::vector<Card>&);
-    int              compareStraightFlush(std::vector<Card>&, std::vector<Card>&);
-
-    template<typename T>
-    int compare(T&& p_lhs, T&& p_rhs)
-    {
-        return p_lhs < p_rhs ? -1 : 1;
-    }
+    int              compareValues(int p_lhs, int p_rhs);
 
     using Comparers = std::map<HandRank, std::function<int(PokerHands&, std::vector<Card>&, std::vector<Card>&)>>;
     Comparers        m_comparers;
 };
-
-template<>
-int PokerHands::compare<std::vector<Card>&>(std::vector<Card>&, std::vector<Card>&);
 

@@ -33,7 +33,7 @@ int Context::handleFile(const std::string& p_file)
             continue;
         }
 
-        if(1 == m_pokerHands.compareHands(l_hand1, l_hand2))
+        if(1 == m_pokerHands.compare(l_hand1, l_hand2))
         {
             l_count++;
         }
