@@ -1,20 +1,17 @@
 #include "PokerHands.hpp"
 #include <algorithm>
 
-PokerHands::PokerHands()
-{
-    m_comparers = {
-                    {HAND_RANK_HIGH_CARD,      &PokerHands::sequential_compare},
-                    {HAND_RANK_ONE_PAIR,       &PokerHands::compareOnePair},
-                    {HAND_RANK_TWO_PAIRS,      &PokerHands::compareTwoPairs},
-                    {HAND_RANK_THREE_KIND,     &PokerHands::compareThreeKind},
-                    {HAND_RANK_STRAIGHT,       &PokerHands::sequential_compare},
-                    {HAND_RANK_FLUSH,          &PokerHands::sequential_compare},
-                    {HAND_RANK_FULL_HOUSE,     &PokerHands::compareFullHouse},
-                    {HAND_RANK_FOUR_KIND,      &PokerHands::compareFourKind},
-                    {HAND_RANK_STRAIGHT_FLUSH, &PokerHands::sequential_compare}
-                  };
-}
+const PokerHands::Comparers PokerHands::s_comparers = {
+                                                        {HAND_RANK_HIGH_CARD,      &PokerHands::sequential_compare},
+                                                        {HAND_RANK_ONE_PAIR,       &PokerHands::compareOnePair},
+                                                        {HAND_RANK_TWO_PAIRS,      &PokerHands::compareTwoPairs},
+                                                        {HAND_RANK_THREE_KIND,     &PokerHands::compareThreeKind},
+                                                        {HAND_RANK_STRAIGHT,       &PokerHands::sequential_compare},
+                                                        {HAND_RANK_FLUSH,          &PokerHands::sequential_compare},
+                                                        {HAND_RANK_FULL_HOUSE,     &PokerHands::compareFullHouse},
+                                                        {HAND_RANK_FOUR_KIND,      &PokerHands::compareFourKind},
+                                                        {HAND_RANK_STRAIGHT_FLUSH, &PokerHands::sequential_compare}
+                                                      };
 
 int PokerHands::compareValues(int p_lhs, int p_rhs)
 {
@@ -34,7 +31,7 @@ int PokerHands::compare(std::vector<Card>& p_hand1, std::vector<Card>& p_hand2)
         return compareValues(l_rank1, l_rank2);
     }
 
-    return m_comparers[l_rank1](*this, p_hand1, p_hand2);
+    return PokerHands::s_comparers.at(l_rank1)(*this, p_hand1, p_hand2);
 }
 
 int PokerHands::sequential_compare(std::vector<Card>& p_hand1, std::vector<Card>& p_hand2)

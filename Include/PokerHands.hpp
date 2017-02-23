@@ -23,7 +23,6 @@ enum HandRank
 class PokerHands
 {
 public:
-    PokerHands();
     int compare(std::vector<Card>&, std::vector<Card>&);
 
 private:
@@ -45,6 +44,6 @@ private:
     int              compareValues(int p_lhs, int p_rhs);
 
     using Comparers = std::map<HandRank, std::function<int(PokerHands&, std::vector<Card>&, std::vector<Card>&)>>;
-    Comparers        m_comparers;
+    const static Comparers s_comparers;
 };
 
